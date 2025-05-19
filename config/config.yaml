@@ -1,0 +1,1644 @@
+#config_version=5
+
+# 1/3/2021 - Config file for Joust trough configure test with troughs as multiball locks and no default ball device for the playfield
+
+# WARNING: The switch and coil numbers in this configuration file are for the P3_ROC.
+
+hardware:
+    platform: p3_roc
+    driverboards: pdb
+    lights: fadecandy
+    segment_displays: light_segment_displays
+config:
+   #Yellow Displays
+   - neoSeg_0.yaml
+   - neoSeg_2dig_0.yaml
+   - neoSeg_2dig_1.yaml
+   #Blue Displays
+   - neoSeg_1.yaml
+   - neoSeg_2dig_2.yaml
+   - neoSeg_2dig_3.yaml    
+sound_system:
+    master_volume: 0.75
+    tracks:
+       music:
+          type: standard
+          simultaneous_sounds: 1
+          volume: 0.25
+       voice:
+          type: standard
+          simultaneous_sounds: 1
+          volume: 0.9
+       sfx:
+          type: standard
+          simultaneous_sounds: 8
+          volume: 0.8
+
+light_settings:
+    color_correction_profiles:
+        corr_profile_gi:
+            whitepoint: [1, 1, 1]
+            gamma: 2.5
+named_colors:
+    tt_white:  [255,240,200] #was [255,250,240]
+    tt_nwhite: [255,240,200]
+    tt_wwhite: [255,230,170]
+    tt_yellow: [255,220,  0]
+    tt_orange: [240,100,  0]
+    tt_blue:   [ 15, 72,255]
+    tt_ltblue: [ 30,144,255]
+    tt_red:    [255,  0,  0]
+    tt_green:  [  0,255,  0]
+player_vars:
+    single_player_score:
+        initial_value: 0
+    total_score:
+        initial_value: 0
+    total_egg_bonus:
+        initial_value: 0        
+    timer_unlimited_multiball_variable:
+        initial_value: 0
+    timer_tunnel_multiball_variable:
+        initial_value: 0
+    timer_round1end_timer_variable:
+        initial_value: 0 
+    timer_round2end_timer_variable:
+        initial_value: 0 
+#Player 1
+    p1_egg_bonus:
+        initial_value: 0
+    p1_5x_bonus:
+        initial_value: 0
+    p1_3x_bonus:
+        initial_value: 0
+    p1_2x_bonus:
+        initial_value: 0  
+    p1_total_egg_bonus: 
+        initial_value: 0    
+    p1_multiplier_counter:
+        initial_value: 1 
+    p1_total_multiplier:
+        initial_value: 1
+    p1_postbonus_score:
+        initial_value: 0        
+    p1_score:
+        initial_value: 0
+#player 2
+    p2_egg_bonus:
+        initial_value: 0
+    p2_5x_bonus:
+        initial_value: 0
+    p2_3x_bonus:
+        initial_value: 0
+    p2_2x_bonus:
+        initial_value: 0  
+    p2_total_egg_bonus: 
+        initial_value: 0  
+    p2_multiplier_counter:
+        initial_value: 1 
+    p2_total_multiplier:
+        initial_value: 1
+    p2_score:
+        initial_value: 0             
+machine_vars:
+    p1_score:
+        initial_value: 0
+    p2_score:
+        initial_value: 0
+    total_score:
+        initial_value: 0     
+switches:
+    s_no_default:
+        number: A3-B0-4 #was player 2 start switch not connected
+# Player 1 Switches
+    s_p1_spin:
+        number: A0-B0-0 
+    s_p1_l_3drop_r:
+        number: A0-B0-1
+        tags: p1_l3bank
+        ignore_window_ms: 800ms  
+    s_p1_l_3drop_c:
+        number: A0-B0-2
+        tags: p1_l3bank  
+        ignore_window_ms: 800ms  
+    s_p1_l_3drop_l:
+        number: A0-B0-3
+        tags: p1_l3bank
+        ignore_window_ms: 800ms  
+    s_p1_disap_t_1:
+        number: A0-B0-4
+        ignore_window_ms: 800ms 
+    s_p1_disap_t_2:
+        number: A0-B0-5
+        ignore_window_ms: 800ms 
+    s_p1_disap_t_roll: #for starting tunnel multiball
+        number: A0-B0-6
+    s_p1_hunter_bull_2:
+        number: A0-B0-7 
+    s_p1_r_3drop_r:
+        number: A0-B1-1
+        tags: p1_r3bank  
+        ignore_window_ms: 800ms  
+    s_p1_r_3drop_c:
+        number: A0-B1-2
+        tags: p1_r3bank   
+        ignore_window_ms: 800ms  
+    s_p1_r_3drop_l:
+        number: A0-B1-3
+        tags: p1_r3bank  
+        ignore_window_ms: 800ms  
+    s_p1_eject_hole:
+        number: A0-B1-4
+    s_p1_hunter_bull_3:
+        number: A0-B1-5
+        ignore_window_ms: 800ms 
+    s_p1_l_flipper_button_far:
+        number: A1-B0-0
+        tags: start
+        debounce: quick
+    s_p1_r_flipper_button_far:
+        number: A1-B0-1
+        tags: 
+        debounce: quick
+    s_p1_l_flipper_button:
+        number: A1-B0-2
+        tags: left_flipper
+        debug: true
+    s_p1_r_flipper_button:
+        number: A1-B0-3
+        tags: right_flipper
+        debug: true
+    s_p2_lane_opto:
+        number: A1-B0-4 
+        type: NC 
+    s_1p_start_button:
+        number: A1-B0-5
+        tags: select
+    s_p1_hunter_roll_1:
+        number: A1-B0-6
+    s_p1_l_slingshot:
+        number: A1-B0-7
+        tags: slings  
+    s_p1_trough4:
+        number: A1-B1-0 
+        tags: drain
+    s_p1_trough3:
+        number: A1-B1-1
+        tags:
+    s_p1_trough2:
+        number: A1-B1-2
+        tags: home       
+    s_p1_trough1:
+        number: A1-B1-3
+        type: NC
+        tags: home
+    s_p1_trough_jam:
+        number: A1-B1-4
+        type: NC 
+    s_p1_launcher:
+        number: A1-B1-5
+        tags: home 
+    s_p1_r_drain:
+        number: A1-B1-6  
+    s_p1_r_slingshot:
+        number: A1-B1-7
+        tags: slings  
+# Player 2 Switches
+    s_p2_spin:
+        number: A2-B0-0
+    s_p2_l_3drop_r:
+        number: A2-B0-1
+        ignore_window_ms: 800ms 
+    s_p2_l_3drop_c:
+        number: A2-B0-2
+        ignore_window_ms: 800ms 
+    s_p2_l_3drop_l:
+        number: A2-B0-3
+        ignore_window_ms: 800ms 
+    s_p2_disap_t_1:
+        number: A2-B0-4 
+        ignore_window_ms: 800ms 
+    s_p2_disap_t_2:
+        number: A2-B0-5 
+
+    s_p2_disap_t_roll:
+        number: A2-B0-6
+    s_p2_hunter_bull_2:
+        number: A2-B0-7 
+    s_p2_r_3drop_r:
+        tags: p2_r3bank 
+        number: A2-B1-1
+        ignore_window_ms: 800ms 
+    s_p2_r_3drop_c:
+        tags: p2_r3bank 
+        number: A2-B1-2 
+        ignore_window_ms: 800ms 
+    s_p2_r_3drop_l:
+        tags: p2_r3bank 
+        number: A2-B1-3
+        ignore_window_ms: 800ms 
+    s_p2_eject_hole:
+        number: A2-B1-4
+    s_p2_hunter_bull_3:
+        number: A2-B1-5
+    s_p2_l_flipper_button_far:
+        number: A3-B0-0
+        tags:
+    s_p2_r_flipper_button_far:
+        number: A3-B0-1
+        tags:
+    s_p2_l_flipper_button:
+        number: A3-B0-2
+        debounce: quick
+    s_p2_r_flipper_button:
+        number: A3-B0-3
+        debounce: quick
+        tags: right_flipper
+#    s_p2_start_button:
+#        number:
+#        label:
+#        tags: 
+    s_p1_lane_opto:
+        number: A3-B0-5    
+        type: NC 
+    s_p2_hunter_roll_1:
+        number: A3-B0-6
+    s_p2_l_slingshot:
+        number: A3-B0-7
+        tags: slings 
+    s_p2_trough4:
+        number: A3-B1-0
+        tags: drain  
+    s_p2_trough3:
+        number: A3-B1-1
+    s_p2_trough2:
+        number: A3-B1-2
+        tags: home         
+    s_p2_trough1:
+        number: A3-B1-3
+        type: NC
+        tags: home 
+    s_p2_trough_jam:
+        number: A3-B1-4
+        type: NC
+    s_p2_launcher:
+        number: A3-B1-5
+        tags: home
+    s_p2_r_drain:
+        number: A3-B1-6
+    s_p2_r_slingshot:
+        number: A3-B1-7
+        tags: slings
+  
+lights:
+    l_p2_hstd:
+        number: 0
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: dashboard
+    l_p2_match:
+        number: 1
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: dashboard
+    l_p2_tilt:
+        number: 2
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: dashboard
+    l_p2_game over:
+        number: 3
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: dashboard
+    l_p2_gi_4:
+        number: 4
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p2_gi_5:
+        number: 5
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p2_gi_6:
+        number: 6
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p2_gi_7:
+        number: 7
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p2_gi_8:
+        number: 8
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p2_gi_9:
+        number: 9
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p2_gi_10:
+        number: 10
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p2_release:
+        number: 11
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: inserts
+    l_p2_gi_12:
+        number: 12
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p2_gi_13:
+        number: 13
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p2_hunter_rollover:
+        number: 14
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: inserts, hunter
+    l_p2_gi_15:
+        number: 15
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p2_gi_16:
+        number: 16
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p1_gi_17:
+        number: 17
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p1_gi_18:
+        number: 18
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p1_gi_19:
+        number: 19
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p1_gi_20:
+        number: 20
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p1_eject_hole:
+        number: 21
+        type: rgb
+        default_on_color: blue 
+        color_correction_profile: corr_profile_gi
+        tags: inserts, eject
+    l_p1_gi_22:
+        number: 22
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p1_gi_23:
+        number: 23
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p1_gi_24:
+        number: 24
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p1_gi_25:
+        number: 25
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p1_gi_26:
+        number: 26
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p1_gi_27:
+        number: 27
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p1_gi_28:
+        number: 28
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p1_gi_29:
+        number: 29
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p1_hstd:
+        number: 30
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: dashboard
+    l_p1_match:
+        number: 31
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: dashboard
+    l_p1_tilt:
+        number: 32
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: dashboard
+    l_p1_game over:
+        number: 33
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: dashboard
+    l_p1_gi_34:
+        number: 34
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p1_gi_35:
+        number: 35
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p1_gi_36:
+        number: 36
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p1_gi_37:
+        number: 37
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p1_gi_38:
+        number: 38
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p1_gi_39:
+        number: 39
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p1_gi_40:
+        number: 40
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p1_release:
+        number: 41
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: inserts
+    l_p1_gi_42:
+        number: 42
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p1_gi_43:
+        number: 43
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p1_hunter_rollover:
+        number: 44
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: inserts, hunter
+    l_p1_gi_45:
+        number: 45
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p1_gi_46:
+        number: 46
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p2_gi_47:
+        number: 47
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p2_gi_48:
+        number: 48
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p2_gi_49:
+        number: 49
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p2_gi_50:
+        number: 50
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p2_eject_hole:
+        number: 51
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: inserts, eject
+    l_p2_gi_52:
+        number: 52
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p2_gi_53:
+        number: 53
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p2_gi_54:
+        number: 54
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p2_gi_55:
+        number: 55
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p2_gi_56:
+        number: 56
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p2_gi_57:
+        number: 57
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p2_gi_58:
+        number: 58
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p2_gi_59:
+        number: 59
+        type: rgb
+        color_correction_profile: corr_profile_gi
+        tags: gi
+    l_p1_2xmulti:
+        number: 64
+        type: grb
+        tags: inserts, multiplier
+    l_p1_3xmulti:
+        number: 65
+        type: grb
+        tags: inserts, multiplier
+    l_p1_5xmulti:
+        number: 66
+        type: grb
+        tags: inserts, multiplier
+    l_p1_eggbonus32:
+        number: 67
+        type: grb
+        tags: inserts, bonus
+    l_p1_eggbonus16:
+        number: 68 
+        type: grb
+        tags: inserts, bonus
+    l_p1_eggbonus8:
+        number: 69
+        type: grb
+        tags: inserts, bonus
+    l_p1_eggbonus4:
+        number: 70
+        type: grb
+        tags: inserts, bonus
+    l_p1_eggbonus2:
+        number: 71
+        type: grb
+        tags: inserts, bonus
+    l_p1_eggbonus1:
+        number: 72
+        type: grb
+        tags: inserts, bonus
+    l_p1_50k5eggs:
+        number: 73
+        type: grb
+        tags: inserts, center
+    l_p1_extra_ball:
+        number: 74
+        type: grb
+        tags: inserts, center
+    l_p1_unlimited_balls:
+        number: 75
+        type: grb
+        tags: inserts, unlimited
+    l_p1_dtl40k:
+        number: 76
+        type: grb
+        tags: inserts, dissapear
+    l_p1_dtl80k:
+        number: 77
+        type: grb
+        tags: inserts, dissapear
+    l_p1_dtl160k:
+        number: 78 
+        type: grb
+        tags: inserts, dissapear
+    l_p1_hunter1:
+        number: 79
+        type: grb
+        tags: inserts, 1hunter
+    l_p1_dtl320k:
+        number: 80
+        type: grb
+        tags: inserts, dissapear
+    l_p1_collect_egg_bonus:
+        number: 81
+        type: grb
+        tags: inserts, spinner
+    l_p1_spinner5k: 
+        number: 82
+        type: grb
+        tags: inserts, spinner
+    l_p1_spinner1k:
+        number: 83 
+        type: grb
+        tags: inserts, spinner
+    l_p1_hunter2:
+        number: 84
+        type: grb
+        tags: inserts, hunter
+    l_p1_r3b50k:
+        number: 85
+        type: grb
+        tags: inserts, rightbank
+    l_p1_r3b100k:
+        number: 86
+        type: grb
+        tags: inserts, rightbank
+    l_p1_r3b150k: 
+        number: 87
+        type: grb
+        tags: inserts, rightbank
+    l_p1_r3b200k:
+        number: 88 
+        type: grb
+        tags: inserts, rightbank
+    l_p1_eject20k:
+        number: 89
+        type: grb
+        tags: inserts, eject
+    l_p1_eject30k:
+        number: 90
+        type: grb
+        tags: inserts, eject
+    l_p1_eject50k:
+        number: 91
+        type: grb
+        tags: inserts, eject
+    l_p1_hunter3:
+        number: 92
+        type: grb
+        tags: inserts, hunter
+    l_p2_2xmulti:
+        number: 128
+        type: grb
+        tags: inserts, multiplier
+    l_p2_3xmulti:
+        number: 129
+        type: grb
+        tags: inserts, multiplier
+    l_p2_5xmulti:
+        number: 130
+        type: grb
+        tags: inserts, multiplier
+    l_p2_eggbonus32:
+        number: 131
+        type: grb
+        tags: inserts, bonus
+    l_p2_eggbonus16:
+        number: 132
+        type: grb
+        tags: inserts, bonus
+    l_p2_eggbonus8:
+        number: 133
+        type: grb
+        tags: inserts, bonus
+    l_p2_eggbonus4:
+        number: 134
+        type: grb
+        tags: inserts, bonus
+    l_p2_eggbonus2:
+        number: 135
+        type: grb
+        tags: inserts, bonus
+    l_p2_eggbonus1:
+        number: 136
+        type: grb
+        tags: inserts, bonus
+    l_p2_50k5eggs:
+        number: 137
+        type: grb
+        tags: inserts, center
+    l_p2_extra_ball:
+        number: 138 
+        type: grb
+        tags: inserts, center
+    l_p2_unlimited_balls:
+        number: 139
+        type: grb
+        tags: inserts, unlimited
+    l_p2_dtl40k:
+        number: 140
+        type: grb
+        tags: inserts, dissapear
+    l_p2_dtl80k:
+        number: 141
+        type: grb
+        tags: inserts, dissapear
+    l_p2_dtl160k:
+        number: 142
+        type: grb
+        tags: inserts, dissapear
+    l_p2_hunter1:
+        number: 143
+        type: grb
+        tags: inserts, 1hunter
+    l_p2_dtl320k:
+        number: 144
+        type: grb
+        tags: inserts, dissapear
+    l_p2_collect_egg_bonus:
+        number: 145
+        type: grb
+        tags: inserts
+    l_p2_spinner5k:
+        number: 146
+        type: grb
+        tags: inserts
+    l_p2_spinner1k:
+        number: 147
+        type: grb
+        tags: inserts
+    l_p2_hunter2:
+        number: 148
+        type: grb
+        tags: inserts, hunter
+    l_p2_r3b50k:
+        number: 149
+        type: grb
+        tags: inserts, rightbank
+    l_p2_r3b100k:
+        number: 150
+        type: grb
+        tags: inserts, rightbank
+    l_p2_r3b150k:
+        number: 151
+        type: grb
+        tags: inserts, rightbank
+    l_p2_r3b200k:
+        number: 152
+        type: grb
+        tags: inserts, rightbank
+    l_p2_eject20k:
+        number: 153
+        type: grb
+        tags: inserts, eject
+    l_p2_eject30k:
+        number: 154
+        type: grb
+        tags: inserts, eject
+    l_p2_eject50k:
+        number: 155
+        type: grb
+        tags: inserts, eject
+    l_p2_hunter3:
+        number: 156
+        type: grb
+        tags: inserts, hunter
+        
+coils:
+# Player 1 Coils Left
+    c_p1_l_flipper_hold:
+        number: A0-B0-0
+        allow_enable: true
+    c_p1_l_flipper: 
+        number: A0-B0-1 #changed from A0-B0-2 on 3-26-2025
+        default_pulse_ms: 23
+        default_pulse_power: 0.75 
+    c_p1_l_slingshot:
+        number: A0-B0-3
+        default_pulse_ms: 20
+        default_pulse_power: 0.75 
+    c_p1_disap_t_2:
+        number: A0-B0-4
+        default_pulse_ms: 90
+    c_p1_disap_t_1:
+        number: A0-B0-5
+        default_pulse_ms: 90
+    c_p1_l_3drop:
+        number: A0-B0-7
+        default_pulse_ms: 30
+# Player 1 Coils Right
+    c_p1_r_3drop:
+        number: A0-B1-1 
+        default_pulse_ms: 30  
+    c_p1_ball_trough:
+        number: A0-B1-2
+        default_pulse_ms: 25
+    c_p1_ball_launcher:
+        number: A0-B1-3
+        default_pulse_ms: 35 
+    c_p1_eject_hole:
+        number: A0-B1-4
+        default_pulse_ms: 25 
+    c_p1_r_slingshot:
+        number: A0-B1-5
+        default_pulse_ms: 20
+        default_pulse_power: 0.75
+    c_p1_r_flipper:
+        number: A0-B1-0
+        default_pulse_ms: 23
+        default_pulse_power: 0.75 
+    c_p1_r_flipper_hold: 
+        number: A0-B1-7
+        allow_enable: true
+# Player 2 Coils Left
+    c_p2_l_flipper_hold:
+        number: A1-B0-0
+        allow_enable: true
+    c_p2_l_flipper:
+        number: A1-B0-2
+        default_pulse_ms: 23
+        default_pulse_power: 0.75       
+    c_p2_l_slingshot:
+        number: A1-B0-3
+        default_pulse_ms: 18
+        default_pulse_power: 0.75  
+    c_p2_disap_t_2:
+        number: A1-B0-4
+        default_pulse_ms: 90  
+    c_p2_disap_t_1:
+        number: A1-B0-5
+        default_pulse_ms: 90
+    c_p2_l_3drop:
+        number: A1-B0-7
+        default_pulse_ms: 30 
+# Player 2 Coils Right
+    c_p2_r_flipper:
+        number: A1-B1-0
+        default_pulse_ms: 23
+        default_pulse_power: 0.75 
+    c_p2_r_3drop:
+        number: A1-B1-1 
+        default_pulse_ms: 30  
+    c_p2_ball_trough:
+        number: A1-B1-2
+        default_pulse_ms: 25 
+    c_p2_ball_launcher:
+        number: A1-B1-3
+        default_pulse_ms: 35 
+    c_p2_eject_hole:
+        number: A1-B1-4
+        default_pulse_ms: 25 
+    c_p2_r_slingshot:
+        number: A1-B1-5
+        default_pulse_ms: 18
+        default_pulse_power: 0.75
+    c_p2_r_flipper_hold:
+        number: A1-B1-7
+        allow_enable: true
+
+        
+flippers:
+    p1_left_flipper:
+        main_coil: c_p1_l_flipper
+        hold_coil: c_p1_l_flipper_hold 
+        activation_switch: s_p1_l_flipper_button
+        enable_events: enable_p1_flipper
+        disable_events: disable_p1_flipper, service_mode_entered
+    p1_right_flipper:
+        main_coil: c_p1_r_flipper
+        hold_coil: c_p1_r_flipper_hold         
+        activation_switch: s_p1_r_flipper_button
+        enable_events: enable_p1_flipper
+        disable_events: disable_p1_flipper, service_mode_entered
+    p2_left_flipper:
+        main_coil: c_p2_l_flipper
+        hold_coil: c_p2_l_flipper_hold
+        activation_switch: s_p2_l_flipper_button  
+        enable_events: enable_double_player
+        disable_events: disable_double_player, service_mode_entered
+    p2_right_flipper:
+        main_coil: c_p2_r_flipper
+        hold_coil: c_p2_r_flipper_hold
+        activation_switch: s_p2_r_flipper_button 
+        enable_events: enable_double_player
+        disable_events: disable_double_player, service_mode_entered
+    1player_p2_left_flipper:
+        main_coil: c_p2_l_flipper
+        hold_coil: c_p2_l_flipper_hold
+        activation_switch: s_p1_r_flipper_button_far 
+        enable_events: enable_single_player
+        disable_events: disable_single_player, service_mode_entered
+    1player_p2_right_flipper:
+        main_coil: c_p2_r_flipper
+        hold_coil: c_p2_r_flipper_hold
+        activation_switch: s_p1_l_flipper_button_far
+        enable_events: enable_single_player
+        disable_events: disable_single_player, service_mode_entered
+drop_targets:
+    p1_disap_t_1:
+        switch: s_p1_disap_t_1
+        reset_coil: c_p1_disap_t_1
+        reset_events: 
+            machine_reset_phase_3: .5 
+            ball_started: .5
+            p1_target_tunnel_complete: 0
+            p2_target_tunnel_complete: .2
+            reset_droptargets: .3
+        reset_coil_max_wait_ms: 500
+        playfield: playfield
+    p1_disap_t_2:
+        switch: s_p1_disap_t_2
+        reset_coil: c_p1_disap_t_2
+        reset_events: 
+            machine_reset_phase_3: .75 
+            ball_started: .5
+            p1_target_tunnel_complete: 0
+            p2_target_tunnel_complete: .2
+            reset_droptargets: .5
+        reset_coil_max_wait_ms: 500
+        playfield: playfield
+    p1_l_3:
+        switch: s_p1_l_3drop_r
+        playfield: playfield
+    p1_l_2:
+        switch: s_p1_l_3drop_c
+        playfield: playfield
+    p1_l_1:
+        switch: s_p1_l_3drop_l
+        playfield: playfield
+    p1_r_3:
+        switch: s_p1_r_3drop_r
+        playfield: playfield
+    p1_r_2:
+        switch: s_p1_r_3drop_c
+        playfield: playfield
+    p1_r_1:
+        switch: s_p1_r_3drop_l
+        playfield: playfield
+# Player 2 side
+    p2_disap_t_1:
+        switch: s_p2_disap_t_1
+        reset_coil: c_p2_disap_t_1
+        reset_coil_max_wait_ms: 750
+        reset_events: 
+            machine_reset_phase_3: .5s 
+            ball_started: .5s
+            p1_target_tunnel_complete: .2s
+            p2_target_tunnel_complete: 0s
+            reset_droptargets: .2s
+        playfield: playfield
+    p2_disap_t_2:
+        switch: s_p2_disap_t_2
+        reset_coil: c_p2_disap_t_2
+        reset_coil_max_wait_ms: 750
+        reset_events: 
+            machine_reset_phase_3: .75s 
+            ball_started: .5s
+            p1_target_tunnel_complete: .2s
+            p2_target_tunnel_complete: 0s
+            reset_droptargets: .4s
+        playfield: playfield
+    p2_l_3:
+        switch: s_p2_l_3drop_r
+        playfield: playfield
+    p2_l_2:
+        switch: s_p2_l_3drop_c
+        playfield: playfield
+    p2_l_1:
+        switch: s_p2_l_3drop_l
+        playfield: playfield
+    p2_r_3:
+        switch: s_p2_r_3drop_r
+        playfield: playfield
+    p2_r_2:
+        switch: s_p2_r_3drop_c
+        playfield: playfield
+    p2_r_1:
+        switch: s_p2_r_3drop_l
+        playfield: playfield
+drop_target_banks:
+    p1_l_3bank:
+        drop_targets: p1_l_1, p1_l_2, p1_l_3
+        reset_coil: c_p1_l_3drop
+        reset_on_complete: 1s
+        reset_events: machine_reset_phase_3, p2_l_3bank_group_complete, reset_droptargets 
+    p1_r_3bank:
+        drop_targets: p1_r_1, p1_r_2, p1_r_3
+        reset_coil: c_p1_r_3drop
+        reset_on_complete: 1s
+        reset_events: machine_reset_phase_3, p2_r_3bank_group_complete, reset_droptargets 
+    p2_l_3bank:
+        drop_targets: p2_l_1, p2_l_2, p2_l_3
+        reset_coil: c_p2_l_3drop
+        reset_on_complete: 1s
+        reset_events: machine_reset_phase_3, p1_l_3bank_group_complete, reset_droptargets 
+    p2_r_3bank:
+        drop_targets: p2_r_3, p2_r_2, p2_r_1
+        reset_coil: c_p2_r_3drop
+        reset_on_complete: 1s
+        reset_events: machine_reset_phase_3, p1_r_3bank_group_complete, reset_droptargets         
+ball_devices:
+    bd_no_default:
+        ball_switches: s_no_default
+        mechanical_eject: true
+        player_controlled_eject_event:
+        debug: true 
+# player 1 side
+    bd_trough_front:
+        ball_switches: s_p1_trough4, s_p1_trough3, s_p1_trough2, s_p1_trough1, s_p1_trough_jam   
+        eject_coil: c_p1_ball_trough
+        eject_targets: bd_launcher_front
+        eject_timeouts: 1.5s
+        tags: home #do not add trough
+        jam_switch: s_p1_trough_jam
+        eject_coil_jam_pulse: 15ms
+        captures_from: playfield
+        mechanical_eject: false
+        auto_fire_on_unexpected_ball: false #cannot tell if this works or not
+        target_on_unexpected_ball: none
+        eject_all_events: eject_all
+    bd_launcher_front:
+        ball_switches: s_p1_launcher
+        eject_coil: c_p1_ball_launcher
+        entrance_count_delay: .3s
+        eject_timeouts: 3s
+        eject_targets: playfield
+        confirm_eject_type: switch
+        confirm_eject_switch: s_p1_lane_opto
+        target_on_unexpected_ball: none
+    bd_p1_eject_hole:
+        ball_switches: s_p1_eject_hole
+        eject_coil: c_p1_eject_hole
+        eject_timeouts: 1s
+        target_on_unexpected_ball: playfield
+        eject_targets: playfield
+# player 2 side
+    bd_trough_back:
+        ball_switches: s_p2_trough4, s_p2_trough3, s_p2_trough2, s_p2_trough1, s_p2_trough_jam
+        eject_coil: c_p2_ball_trough
+        eject_targets: bd_launcher_back
+        eject_timeouts: 1.5s
+        tags: home #do not add trough
+        jam_switch: s_p2_trough_jam
+        eject_coil_jam_pulse: 15ms
+        captures_from: playfield
+        mechanical_eject: false
+        auto_fire_on_unexpected_ball: false #cannot tell if this works or not
+        target_on_unexpected_ball: none
+        eject_all_events: eject_all
+        debug: true
+    bd_launcher_back:
+        ball_switches: s_p2_launcher
+        eject_coil: c_p2_ball_launcher
+        entrance_count_delay: .3s
+        eject_timeouts: 3s 
+        eject_targets: playfield 
+        confirm_eject_type: switch
+        confirm_eject_switch: s_p2_lane_opto
+        target_on_unexpected_ball: none
+    bd_p2_eject_hole:
+        ball_switches: s_p2_eject_hole
+        eject_coil: c_p2_eject_hole
+        eject_timeouts: 1s                                
+        target_on_unexpected_ball: playfield
+        eject_targets: playfield        
+
+playfields:
+    playfield:
+        tags: default
+        default_source_device: bd_no_default #this is what allows there to have the troughs not linked to the default playfield eject queue
+
+autofire_coils:
+    p1_l_slingshot:
+        coil: c_p1_l_slingshot
+        switch: s_p1_l_slingshot
+        enable_events: ball_started, enableAutofire
+        disable_events: ball_will_end, disableAutofire
+        playfield: playfield
+    p1_r_slingshot:
+        coil: c_p1_r_slingshot
+        switch: s_p1_r_slingshot
+        enable_events: ball_started, enableAutofire
+        disable_events: ball_will_end, disableAutofire 
+        playfield: playfield
+    p2_l_slingshot:
+        coil: c_p2_l_slingshot
+        switch: s_p2_l_slingshot
+        enable_events: ball_started, enableAutofire
+        disable_events: ball_will_end, disableAutofire
+        playfield: playfield
+    p2_r_slingshot:
+        coil: c_p2_r_slingshot
+        switch: s_p2_r_slingshot
+        enable_events: ball_started, enableAutofire
+        disable_events: ball_will_end, disableAutofire
+        playfield: playfield
+machine:
+    balls_installed: 4
+game:
+    balls_per_game: 1
+    max_players: 1
+    allow_start_with_loose_balls: true #needed to add this for starting in the virtual mode for when the system thinks there are still balls on the playfield     
+    end_game_event: end_game
+modes:
+  - 1st_launch_delay
+  - attract
+  - base
+  - carousel
+  - co-op
+  - double_player
+  - egg_bonus 
+  - egg_bonus_tally
+  - game
+  - hunter
+  - l_3bank
+  - lavapit
+  - r_3bank
+  - round1end
+  - round2end
+  - single_player
+  - single_player_1ball
+  - single_player_1st_launch_delay
+  - target_tunnel
+  - tunnel_multiball
+  - unlimited_multiball 
+kivy_config:
+  kivy:
+    desktop: 1
+    exit_on_escape: true
+    pause_on_minimize: 0
+    log_dir:
+    window_icon:
+  graphics:
+    borderless: true
+    window_state: visible # visible, hidden, maximized, minimized
+    fbo: hardware # hardware, software, force-hardware
+    fullscreen: true
+    left: 0
+    top: 0
+    width: 1280   # width of display1 + display2
+    height: 768  # common height (or the maximum of both)
+    maxfps: 30
+    multisamples: 3
+    position: auto # auto, custom
+    show_cursor: false
+    resizable: false
+    rotation: 0
+displays:
+  monitor:
+    width: 1280
+    height: 768
+#  virtual_segment: #comment out for production
+#    width: 600
+#    height: 768
+#  combined_display: #comment out for production
+#    width: 1880
+#    height: 768
+slides:
+  base_slide:
+    background_color: black
+    widgets:
+      - type: display
+        source_display: monitor
+        width: 1280
+        height: 768
+        x: left
+        anchor_x: left
+      - type: segment_display_emulator  
+        name: neoSeg0
+        display_type: 14seg
+        character_count: 7
+        character_slant_angle: 5
+        character_spacing: 10
+        segment_width: 0.11
+        segment_interval: 0.04
+        segment_off_color: 4b4c4a30
+        segment_on_color: blue
+        side_bevel_enabled: true
+        dot_enabled: true
+        comma_enabled: false
+        text: ""
+        width: 516
+        height: 120
+        x: right - 300
+        y: top - 84
+        z: 3
+      - type: segment_display_emulator  
+        name: neoSeg1
+        display_type: 14seg
+        character_count: 7
+        character_slant_angle: 5
+        character_spacing: 10
+        segment_width: 0.11
+        segment_interval: 0.04
+        segment_off_color: 4b4c4a30
+        segment_on_color: blue
+        side_bevel_enabled: true
+        dot_enabled: true
+        comma_enabled: false
+        text: ""
+        width: 516
+        height: 120
+        x: right - 300
+        y: bottom + 228
+        z: 3
+      - type: segment_display_emulator 
+        name: neoSeg2d0
+        display_type: 14seg
+        character_count: 2
+        character_slant_angle: 5
+        character_spacing: 10
+        segment_width: 0.11
+        segment_interval: 0.04
+        segment_off_color: 4b4c4a30
+        segment_on_color: blue
+        side_bevel_enabled: true
+        dot_enabled: true
+        comma_enabled: false
+        text: ""
+        width: 148
+        height: 120
+        y: top - 228
+        z: 3
+        x: right - 116      
+      - type: segment_display_emulator 
+        name: neoSeg2d1
+        display_type: 14seg
+        character_count: 2
+        character_slant_angle: 5
+        character_spacing: 10
+        segment_width: 0.11
+        segment_interval: 0.04
+        segment_off_color: 4b4c4a30
+        segment_on_color: blue
+        side_bevel_enabled: true
+        dot_enabled: true
+        comma_enabled: false
+        text: ""
+        width: 148
+        height: 120
+        y: top - 228
+        z: 3
+        x: right - 484
+      - type: segment_display_emulator 
+        name: neoSeg2d2
+        display_type: 14seg
+        character_count: 2
+        character_slant_angle: 5
+        character_spacing: 10
+        segment_width: 0.11
+        segment_interval: 0.04
+        segment_off_color: 4b4c4a30
+        segment_on_color: blue
+        side_bevel_enabled: true
+        dot_enabled: true
+        comma_enabled: false
+        text: ""
+        width: 148
+        height: 120
+        y: bottom + 84
+        z: 3
+        x: right - 116     
+      - type: segment_display_emulator 
+        name: neoSeg2d3
+        display_type: 14seg
+        character_count: 2
+        character_slant_angle: 5
+        character_spacing: 10
+        segment_width: 0.11
+        segment_interval: 0.04
+        segment_off_color: 4b4c4a30
+        segment_on_color: blue
+        side_bevel_enabled: true
+        dot_enabled: true
+        comma_enabled: false
+        text: ""
+        width: 148
+        height: 120
+        y: bottom + 84
+        z: 3
+        x: right - 484 
+#slide_player: #comment out for production 
+#  mc_ready:
+#    base_slide:
+#      target: combined_display
+virtual_segment_display_connector:
+  segment_displays: neoSeg0, neoSeg1, neoSeg2d0, neoSeg2d1, neoSeg2d2, neoSeg2d3
+
+shows:
+    release:
+        - duration: 200ms
+          lights:
+              (led): (color)
+        - duration: 100ms
+          lights:
+              (led): off
+    offLED:
+        - time: 0
+          lights:
+              (led): black
+    offLED2:
+        - duration: 1
+          lights:
+              (led): black
+    color_on: #used by l_3bank
+        - time: 0
+          lights:
+              (led): (color)    
+    color_on2: #used by lavapit
+        - time: 0
+          lights:
+              (led): (color)          
+    flashColor:
+        - time: 0
+          lights:
+              (led): (color)
+        - time: +1
+          lights:
+              (led): off
+    flashColor2:
+        - duration: 1
+          lights:
+              (led): (color)
+        - duration: 1
+          lights:
+              (led): off
+    quickflashColor:
+        - duration: 200ms
+          lights:
+              (led): (color)
+        - duration: 100ms
+          lights:
+              (led): off
+    sequenceColor:
+        - time: 0
+          lights:
+              (led): (color)
+        - time: +1
+          lights:
+              (ledB): (color)
+        - time: +1
+          lights:
+              (led): off
+              (ledC): (color)
+        - time: +1
+          lights:
+              (ledB): off
+              (ledD): (color)
+        - time: +1
+          lights:
+              (ledC): off
+        - time: +1
+          lights:
+              (ledD): off              
+    sequenceColor2:
+        - time: 0
+          lights:
+              (led): (color)
+        - time: +1
+          lights:
+              (led): off
+              (ledB): (color)
+        - time: +1
+          lights:
+              (ledB): off
+              (ledC): (color)
+        - time: +1
+          lights:
+              (ledC): off
+              (ledD): (color)
+        - time: +1
+          lights:
+              (ledD): off              
+    sequenceColor1:
+        - time: 0
+          lights:
+              (led): (color)
+        - time: +1
+          lights:
+              (ledB): (color)
+              (led): off
+        - time: +1
+          lights:
+              (ledB): off
+              (ledC): (color)
+        - time: +1
+          lights:
+              (ledC): off
+              (ledD): (color)
+        - time: +1
+          lights:
+              (ledD): off
+        - time: +1
+          lights:
+              (ledD): off            
+#added for display meow
+    P1_score:
+        - duration: -1
+          segment_displays:
+            neoSeg0:
+                text: (txt)
+    P2_score:
+        - duration: -1
+          segment_displays:
+            neoSeg1:
+                text: (txt)
+    P1_lives:
+        - duration: -1
+          segment_displays:
+            neoSeg2d0:
+                text: (txt)
+    P1_timer:
+        - duration: -1
+          segment_displays:
+            neoSeg2d1:
+                text: (txt)
+    P2_lives:
+        - duration: -1
+          segment_displays:
+            neoSeg2d2:
+                text: (txt)
+    P2_timer:
+        - duration: -1
+          segment_displays:
+            neoSeg2d3:
+                text: (txt)
+
+sounds:
+    egg_bonus:
+        volume: 1
+        file: "egg_bonus.wav"
+        track: sfx
+    walk_sound:
+        volume: 1
+        file: "JoustSFX03.wav"
+        track: sfx
+    player_start:
+        volume: 1
+        file: "player_start.wav"
+        track: sfx
+    intermission1:
+        volume: 1
+        file: "Intermission1.wav"
+        track: sfx  
+    intermission2:
+        volume: 1
+        file: "Intermission2.wav"
+        track: sfx 
+    intermission3:
+        volume: 1
+        file: "Intermission3.wav"
+        track: sfx 
+    explosion:
+        volume: 1
+        file: "Explosion.wav"
+        track: sfx                   
+    pterodactyl:
+        volume: 1
+        file: "Pterodactyl.wav"
+        track: sfx
+    eject_hole:
+        volume: 1
+        file: "EjectHole.wav"
+        track: sfx 
+    spinner:
+        volume: 1
+        file: "Spinner.wav"
+        track: sfx
+        max_queue_time: 1ms        
+    spinner2:
+        volume: 1
+        file: "Spinner2.wav"
+        track: sfx
+        max_queue_time: 2ms 
+    hidden_drop1:
+        volume: 1
+        file: "HiddenDrop1.wav"
+        track: sfx         
+    hidden_drop2:
+        volume: 1
+        file: "HiddenDrop2.wav"
+        track: sfx
+    flipper_flap:
+        volume: .65
+        file: "FlipperFlap.wav"
+        track: sfx
+    ball_drain_trough:
+        volume: 1
+        file: "BallDrainIntoTrough.wav"
+        track: sfx         
+    drain_rollover:
+        volume: 1
+        file: "DrainRollover.wav"
+        track: sfx 
+    game_start:
+        volume: 1
+        file: "GameStartExplosions.wav"
+        track: sfx
+        priority: 500       
+    hunter:
+        volume: 1
+        file: "Hunter.wav"
+        track: sfx
+    hunter_complete:
+        volume: 1
+        file: "HunterComplete.wav"
+        track: sfx
+    l_3drop:
+        volume: 1
+        file: "LeftDropTarget.wav"
+        track: sfx
+    l_3drop_complete:
+        volume: 1
+        file: "LBankComplete.wav"
+        track: sfx
+    l_sling:
+        volume: 1
+        file: "LeftSling.wav"
+        track: sfx
+    r_sling:
+        volume: 1
+        file: "RightSling.wav"
+        track: sfx
+    r_3drop:
+        volume: 1
+        file: "RightDropTarget.wav"
+        track: sfx     
+    r_3drop_complete:
+        volume: 1
+        file: "RBankComplete.wav"
+        track: sfx         
+        about_to_finish_time: 1.5s
+        events_when_about_to_finish: reset_r3d_value
+    timer_pulse:
+        volume: 1
+        file: "TimerPulse.wav"
+        track: sfx
+    unlimited_multiball:
+        volume: 1
+        file: "UnlimitedMultiball.wav"
+        track: sfx                                                                
+    end_of_game:
+        volume: 1
+        file: "EndofGame.wav"
+        track: sfx 
+
+sound_player:
+    egg_bonus_tally_complete:
+      end_of_game:
+        action: play
+        events_when_played: end_egg_bonus_tally
+images:
+  joust_logo:
+    file: joust_logo.jpg
+  joust_logo_sm:
+    file: joust_logo_sm.jpg
+  score_display:
+    file: score_display.jpg
+  lastgame:
+    file: Jh2h_lastgame.png
+  tips:
+    file: Jh2hTips.png
+  select_2pvs:
+    file: Jh2h_2Pvs.png
+  select_2pco-op:
+    file: Jh2h_2Pco-op.png
+  select_single:
+    file: Jh2h_Single.png
+  multiball:
+    file: Jh2hMultiball.png
+keyboard:
+    q:
+        switch: s_p1_l_flipper_button_far
+    p:
+        switch: s_p1_r_flipper_button_far
+    a:
+        switch: s_p1_l_flipper_button
+    l:
+        switch: s_p1_r_flipper_button
+    s:
+        switch: s_1p_start_button
+
+virtual_platform_start_active_switches: s_p1_trough1, s_p1_trough2, s_p2_trough1, s_p2_trough2
+
