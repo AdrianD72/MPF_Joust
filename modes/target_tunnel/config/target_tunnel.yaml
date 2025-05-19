@@ -1,0 +1,279 @@
+#config_version=5
+#spinner mode config file
+#4-1-2025 removed shows and put them in config file
+
+mode:
+    start_events: carousel_item_selected, start_mode_unlimited_multiball
+    stop_events: round2end
+    priority: 140
+    events_when_started: reset_target_tunnel   
+
+variable_player:
+#Player 1 Side
+    p1_disap_t_1_hit:
+        p1_score: 3000
+        p1_egg_bonus: 3
+    p1_disap_t_2_hit:
+        p1_score: 5000
+        p1_egg_bonus: 5 
+    s_p1_spin_active{device.sequences.p_1_target_tunnel.value==0}:
+        p1_score: 100
+    s_p1_spin_active{device.sequences.p_1_target_tunnel.value==1}:
+        p1_score: 1000
+    s_p1_spin_active{device.sequences.p_1_target_tunnel.value==2}:
+        p1_score: 5000    
+    p1_disap_t_roll_hit:
+        p1_egg_bonus: 8
+        p1_score: 8000    
+    p1_disap_t_roll_hit{device.counters.p1_tunnel_counter.value==1}:
+        p1_score: 40000
+    p1_disap_t_roll_hit{device.counters.p1_tunnel_counter.value==2}:
+        p1_score: 80000
+    p1_disap_t_roll_hit{device.counters.p1_tunnel_counter.value==3}:
+        p1_score: 160000
+    p1_disap_t_roll_hit{device.counters.p1_tunnel_counter.value==4}:
+        p1_score: 320000                          
+#Player 2 Side        
+    s_p2_disap_t_1_active:
+        p2_score: 3000
+        p2_egg_bonus: 3
+    s_p2_disap_t_2_active:
+        p2_score: 5000 
+        p2_egg_bonus: 5
+    s_p2_spin_active{device.sequences.p_2_target_tunnel.value==0}:
+        p2_score: 100
+    s_p2_spin_active{device.sequences.p_2_target_tunnel.value==1}:
+        p2_score: 1000
+    s_p2_spin_active{device.sequences.p_2_target_tunnel.value==2}:
+        p2_score: 5000    
+    p2_disap_t_roll_hit:
+        p2_egg_bonus: 8
+        p2_score: 8000    
+    p2_disap_t_roll_hit{device.counters.p2_tunnel_counter.value==1}:
+        p2_score: 40000
+    p2_disap_t_roll_hit{device.counters.p2_tunnel_counter.value==2}:
+        p2_score: 80000
+    p2_disap_t_roll_hit{device.counters.p2_tunnel_counter.value==3}:
+        p2_score: 160000
+    p2_disap_t_roll_hit{device.counters.p2_tunnel_counter.value==4}:
+        p2_score: 320000 
+shots:
+#Player 1 side 
+    p1_disap_t_1:
+        switch: s_p1_disap_t_1
+        reset_events: reset_target_tunnel, round1end
+    p1_disap_t_2:
+        switch: s_p1_disap_t_2
+        reset_events: reset_target_tunnel, round1end
+    p1_disap_t_roll:
+        switch: s_p1_disap_t_roll
+    p1_spin:
+        switch: s_p1_spin    
+#Player 2 side 
+    p2_disap_t_1:
+        switch: s_p2_disap_t_1
+        reset_events: reset_target_tunnel, round1end
+        show_tokens:
+            led: l_p2_spinner1k
+            color: white
+    p2_disap_t_2:
+        switch: s_p2_disap_t_2
+        reset_events: reset_target_tunnel, round1end
+        show_tokens:
+            led: l_p2_spinner5k
+            color: white              
+    p2_disap_t_roll:
+        switch: s_p2_disap_t_roll
+    p2_spin:
+        switch: s_p2_spin
+counters:
+# player 1 side
+    p1_tunnel_counter:
+        count_events: p1_hunter_shot_group_complete, p1_disap_t_roll_hit
+        events_when_hit: p1_tunnel_bonus
+        starting_count: 0
+        direction: up
+        count_complete_value: 5 
+        reset_on_complete: true
+        disable_on_complete: false
+        multiple_hit_window: 500ms
+# player 2 side
+    p2_tunnel_counter:
+        count_events: p2_hunter_shot_group_complete, p2_disap_t_roll_hit
+        events_when_hit: p2_tunnel_bonus
+        starting_count: 0
+        direction: up
+        count_complete_value: 5 
+        reset_on_complete: true 
+        disable_on_complete: false
+        multiple_hit_window: 500ms
+
+sequences: 
+#Player 1 side 
+    p_1_target_tunnel:
+       events:
+         - p1_disap_t_1_hit
+         - p1_disap_t_2_hit
+         - p1_disap_t_roll_hit
+       events_when_hit: p_1_target_tunnel
+       events_when_complete: p1_target_tunnel_complete
+       restart_events: drop_target_p1_disap_t_1_up, drop_target_p1_disap_t_1_up, start_mode_unlimited_multiball 
+#Player 2 side 
+    p_2_target_tunnel:
+       events:
+         - p2_disap_t_1_hit
+         - p2_disap_t_2_hit
+         - p2_disap_t_roll_hit
+       events_when_hit: p_2_target_tunnel
+       events_when_complete: p2_target_tunnel_complete
+       restart_events: drop_target_p2_disap_t_1_up, drop_target_p2_disap_t_1_up, start_mode_unlimited_multiball 
+shows:
+#Player 1 side
+    p1_spinner_value:
+        - duration: 200ms
+          lights:
+              (led): (color)
+        - duration: 100ms
+          lights:
+              (led): off    
+    p1_spinner_on_off:
+        - time: 0
+          lights:
+              (led): tt_white
+              (ledoff): black
+#Player 2 side
+    p2_spinner_value:
+        - duration: 200ms
+          lights:
+              (led): (color)
+        - duration: 100ms
+          lights:
+              (led): off
+    p2_spinner_on_off:
+        - time: 0
+          lights:
+              (led): tt_white
+              (ledoff): black
+show_player:
+#Player 1 side
+    p1_disap_t_1_hit:
+        p1_spinner_value: 
+            show_tokens:
+                led: l_p1_spinner1k
+                color: tt_white
+    p1_disap_t_2_hit:
+        p1_spinner_value: 
+            show_tokens:
+                led: l_p1_spinner5k
+                color: tt_white 
+        p1_spinner_on_off:
+            show_tokens:
+                led: l_p1_spinner1k
+    p1_target_tunnel_complete:
+        p1_spinner_on_off:
+            show_tokens:
+                ledoff: l_p1_spinner1k, l_p1_spinner5k, l_p2_spinner1k, l_p2_spinner5k    
+#Player 2 side
+    p2_disap_t_1_hit:
+        p2_spinner_value: 
+            show_tokens:
+                led: l_p2_spinner1k
+                color: tt_white
+    p2_disap_t_2_hit:
+        p2_spinner_value: 
+            show_tokens:
+                led: l_p2_spinner5k
+                color: tt_white 
+        p2_spinner_on_off:
+            show_tokens:
+                led: l_p2_spinner1k
+    p2_target_tunnel_complete:
+        p1_spinner_on_off:
+            show_tokens:
+                ledoff: l_p1_spinner1k, l_p1_spinner5k, l_p2_spinner1k, l_p2_spinner5k
+#Both
+    reset_target_tunnel:
+        p1_spinner_on_off:
+            show_tokens:
+                ledoff: l_p1_spinner1k, l_p1_spinner5k, l_p2_spinner1k, l_p2_spinner5k
+    mode_round1end_started:
+        p1_spinner_on_off:
+            show_tokens:
+                ledoff: l_p1_spinner1k, l_p1_spinner5k, l_p2_spinner1k, l_p2_spinner5k
+
+light_player:
+#player1 side
+    p1_tunnel_bonus{count==1}:
+        l_p1_dtl40k: white
+    p1_tunnel_bonus{count==2}:
+        l_p1_dtl40k: white
+        l_p1_dtl80k: white
+    p1_tunnel_bonus{count==3}:
+        l_p1_dtl40k: white
+        l_p1_dtl80k: white
+        l_p1_dtl160k: white
+    p1_tunnel_bonus{count==4}:
+        l_p1_dtl40k: white
+        l_p1_dtl80k: white
+        l_p1_dtl160k: white
+        l_p1_dtl320k: white
+    p1_tunnel_bonus{count==5}:
+        l_p1_dtl40k: black
+        l_p1_dtl80k: black
+        l_p1_dtl160k: black
+        l_p1_dtl320k: black
+#player2 side
+    p2_tunnel_bonus{count==1}:
+        l_p2_dtl40k: white
+        l_p2_dtl80k: black
+        l_p2_dtl160k: black
+        l_p2_dtl320k: black
+    p2_tunnel_bonus{count==2}:
+        l_p2_dtl40k: white
+        l_p2_dtl80k: white
+    p2_tunnel_bonus{count==3}:
+        l_p2_dtl40k: white
+        l_p2_dtl80k: white
+        l_p2_dtl160k: white
+    p2_tunnel_bonus{count==4}:
+        l_p2_dtl40k: white
+        l_p2_dtl80k: white
+        l_p2_dtl160k: white
+        l_p2_dtl320k: white
+    p2_tunnel_bonus{count==5}:
+        l_p2_dtl40k: black
+        l_p2_dtl80k: black
+        l_p2_dtl160k: black
+        l_p2_dtl320k: black
+#    p1_disap_t_roll_hit: #This would not let the shows above work on the lights for the spinners after the disap roll over was hit
+#        l_p1_spinner1k: black
+#        l_p1_spinner5k: black
+#        l_p2_spinner1k: black 
+#        l_p2_spinner5k: black
+#    p2_disap_t_roll_hit:
+#        l_p1_spinner1k: black
+#        l_p1_spinner5k: black
+#        l_p2_spinner1k: black 
+#        l_p2_spinner5k: black
+sound_player:
+#Player 1
+    s_p1_disap_t_1_active: hidden_drop1
+    s_p1_disap_t_2_active: hidden_drop2
+    s_p1_disap_t_roll_active: pterodactyl      
+    s_p1_spin_active: spinner_steps
+#Player 2
+    s_p2_disap_t_1_active: hidden_drop1
+    s_p2_disap_t_2_active: hidden_drop2
+    s_p2_disap_t_roll_active: pterodactyl      
+    s_p2_spin_active: spinner_steps
+sound_pools:
+    spinner_steps:
+        load: preload
+        type: sequence
+        track: sfx
+        sounds:
+          - spinner
+          - spinner2
+        
+    
+

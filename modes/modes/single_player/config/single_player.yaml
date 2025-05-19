@@ -1,0 +1,199 @@
+#config_version=5
+#this mode is a branch of the "base" mode for a single player game
+
+mode:
+    start_events: carousel_single_player_selected #changed from ball_starting so that the carousel starts with ball starting
+    priority: 144
+event_player:
+    mode_single_player_started:
+      - enable_p1_flipper
+      - enable_single_player
+      - enable_front_lock #this is so only the back lock ejects a ball for a single ball game
+      - enable_prevent_drain #this was not on - addded 3-26-2025
+    mode_unlimited_multiball_started:  
+      - enable_p1_flipper
+      - enable_single_player
+      - disable_front_lock
+      - disable_back_lock
+    p1_disap_t_roll_hit: disable_front_lock
+    p2_disap_t_roll_hit: disable_front_lock
+    end_tunnel_multiball: enable_front_lock
+counters:
+    single_player_lives:
+        count_events: s_p1_trough4_active, s_p2_trough4_active       
+        events_when_complete: round1end
+        starting_count: 5
+        count_interval: 1
+        direction: down
+        count_complete_value: 0
+        reset_on_complete: false
+        control_events:
+          - event: logicblock_single_p1_hunter_group_count_complete
+            action: add
+            value: 1           
+          - event: logicblock_single_p2_hunter_group_count_complete
+            action: add
+            value: 1 
+        disable_events: p1_disap_t_roll_hit, p2_disap_t_roll_hit, mode_double_player_started 
+        enable_events: mode_single_player_started, timer_p1_tunnel_multiball_complete{device.counters.single_player_lives.value > 0}, timer_p2_tunnel_multiball_complete{device.counters.single_player_lives.value > 0} #note 3-19-2025 not sure if the value greater than 0 works and why I would add that.
+        debug: true 
+    single_p1_hunter_group_count:
+        count_events: p1_hunter_shot_group_complete
+        events_when_hit: p1_hunter_group_done
+        starting_count: 0
+        direction: up
+        persist_state: true 
+        count_complete_value: 3
+        reset_on_complete: true
+        disable_on_complete: false
+        disable_events: mode_double_player_started, mode_colab_started
+        multiple_hit_window: 500ms               
+    single_ p2_hunter_group_count:
+        count_events: p2_hunter_shot_group_complete
+        events_when_hit: p2_hunter_group_done
+        starting_count: 0
+        direction: up
+        persist_state: true 
+        count_complete_value: 3
+        reset_on_complete: true
+        disable_on_complete: false
+        multiple_hit_window: 500ms
+        disable_events: mode_double_player_started, mode_colab_started     
+slide_player:
+  mode_single_player_started:
+    single_player_monitor:
+      target: monitor
+slides:
+  single_player_monitor:
+    widgets:
+      - type: image
+        image: joust_logo_sm
+        anchor_x: center
+        anchor_y: top
+        y: 768
+      - type: text
+        text: SINGLE PLAY
+        font_name: joust
+        font_size: 40
+        color: red
+        anchor_x: center
+        anchor_y: top
+        y: 555
+      - type: text
+        font_name: joust
+        text: PLAYER 1
+        y: 410
+        font_size: 70
+        color: yellow
+        anchor_x: center
+        anchor_y: bottom  
+      - type: text
+        text: (total_score)
+        font_name: joust
+        number_grouping: true
+        y: 280
+        min_digits: 2
+        font_size: 95
+        color: yellow
+        anchor_x: center
+        anchor_y: bottom  
+      - type: text
+        font_name: joust
+        text: EGG BONUS (total_egg_bonus) 
+        y: 180
+        min_digits: 2
+        font_size: 54 
+        color: yellow
+        anchor_x: center
+        anchor_y: bottom
+      - type: text
+        font_name: joust
+        text: MULTIBALL TIME (timer_unlimited_multiball_variable) 
+        y: 90
+        min_digits: 2
+        font_size: 54
+        color: red
+        anchor_x: center
+        anchor_y: bottom
+        opacity: 0
+        animations:
+          mode_unlimited_multiball_started:                   # animation trigger event
+            - property: opacity         # second step in the animation (starts with a hyphen)
+              value: 1
+              duration: 0s
+      - type: image
+        image: multiball
+        anchor_x: center
+        anchor_y: bottom
+        y: 5
+        opacity: 0 
+        animations:
+          mode_round1end_started:                   # animation trigger event
+            - property: opacity         # name of the widget property we're animating
+              value: 1                  # target value of that property for this step
+              duration: 1s             # duration for this step (how long it takes to get there)
+            - property: opacity         # second step in the animation (starts with a hyphen)
+              value: 0
+              duration: 1s
+              repeat: true 
+          mode_unlimited_multiball_started:                   # animation trigger event
+            - property: opacity         # second step in the animation (starts with a hyphen)
+              value: 0
+              duration: 0s
+show_player:
+    player_total_score:
+        P1_score:
+            show_tokens:
+                txt: "{current_player.total_score:0>1d}"
+            key: p1score
+        P2_score:
+            show_tokens:
+                txt: "{current_player.total_score:0>1d}"
+            key: p2score
+    player_single_player_lives: #need to make sure this is the player variable
+        P1_lives:
+            show_tokens:
+                txt: "{current_player.single_player_lives:0>1d}"
+            key: p1lives1
+        P2_lives:
+            show_tokens:
+                txt: "{current_player.single_player_lives:0>1d}"
+            key: p1lives2
+    player_timer_unlimited_multiball_variable:  #need to make sure this is the player variable
+        P1_timer:
+            show_tokens:
+                txt: "{current_player.timer_unlimited_multiball_variable:0>1d}"
+            key: timer1
+        P2_timer:
+            show_tokens:
+                txt: "{current_player.timer_unlimited_multiball_variable:0>1d}"
+            key: timer2
+
+variable_player:
+#Player 1 Side     
+    logicblock_single_player_lives_updated:
+        single_player_lives:
+           int: value
+           action: set
+#to combine Player 2 side score into Player 1
+    player_p1_score:
+        total_score:
+           int: current_player.p1_score + current_player.p2_score
+           action: set
+    player_p2_score:
+        total_score:
+           int: current_player.p1_score + current_player.p2_score
+           action: set      
+    player_p1_egg_bonus:
+        total_egg_bonus:
+           int: current_player.p1_egg_bonus + current_player.p2_egg_bonus
+           action: set
+    player_p2_egg_bonus:
+        total_egg_bonus:
+           int: current_player.p1_egg_bonus + current_player.p2_egg_bonus
+           action: set
+sound_player:
+    mode_single_player_started: 
+      player_start:
+         action: play 
+  

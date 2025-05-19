@@ -1,0 +1,89 @@
+#show_version=5
+
+- duration: 2  
+  segment_displays:
+         neoSeg0:
+            text: "PLAYER1"
+            transition:
+               type: push
+               direction: left
+         neoSeg2d0:
+            text: "--"
+         neoSeg2d1:
+            text: "--"
+         neoSeg1:
+            text: "PLAYER2"
+            transition:
+               type: push
+               direction: left
+         neoSeg2d2:
+            text: "--"
+         neoSeg2d3:
+            text: "--"
+- duration: 6  
+  segment_displays:
+         neoSeg0:
+            text: "{machine.p1_score:0>1d}"
+            transition:
+               type: push
+               direction: left
+         neoSeg2d0:
+            text: "00"
+         neoSeg2d1:
+            text: "00"
+         neoSeg1:
+            text: "{machine.p2_score:0>1d}" 
+            transition:
+               type: push
+               direction: left
+         neoSeg2d2:
+            text: "00"
+         neoSeg2d3:
+            text: "00"
+- duration: 2  
+  segment_displays:
+         neoSeg0:
+            text: "      PRESS"
+            transition:
+               type: push
+               direction: left
+         neoSeg1:
+            text: "-------"
+            transition:
+               type: push
+               direction: left
+- duration: 2  
+  segment_displays:
+         neoSeg0:
+            text: " LEFT "
+            transition:
+               type: push
+               direction: left
+- duration: 1  
+  segment_displays:
+         neoSeg0:
+            text: "FLIPPER"
+            transition:
+               type: push
+               direction: left                               
+- duration: 1  
+  segment_displays:
+         neoSeg0:
+            text: " BUTTON"
+            transition:
+               type: push
+               direction: left
+- duration: .5  
+  segment_displays:
+         neoSeg0:
+            text: "   to  "
+            transition:
+               type: push
+               direction: left
+- duration: 2  
+  segment_displays:
+         neoSeg0:
+            text: " JOUST "
+            transition:
+               type: push
+               direction: left                                

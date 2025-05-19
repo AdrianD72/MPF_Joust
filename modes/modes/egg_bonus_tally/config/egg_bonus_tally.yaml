@@ -1,0 +1,147 @@
+#config_version=5
+
+mode:
+    start_events: start_mode_egg_bonus_tally
+    stop_events: end_egg_bonus_tally
+    priority: 902
+    events_when_started:
+      - start_p1_egg_bonus_score
+      - start_egg_bonus_tally_slide
+      - play_egg_bonus_sound  
+
+counters:
+    p1_multiplier:
+        count_events: p1_multiplier_count_down
+        starting_count: current_player.p1_multiplier_counter
+        direction: down
+        events_when_hit: start_p1_egg_bonus_score
+        count_complete_value: 0
+        events_when_complete: start_p2_egg_bonus_score
+        reset_on_complete: false #false otherwise it will restart and it needs to be 0 to prevent a score from registering when completed 
+    p2_multiplier:
+        count_events: p2_multiplier_count_down
+        starting_count: current_player.p2_multiplier_counter
+        direction: down
+        events_when_hit: start_p2_egg_bonus_score
+        count_complete_value: 0
+        events_when_complete: egg_bonus_tally_complete
+        reset_on_complete: false #false otherwise it will restart and it needs to be 0 to prevent a score from registering when completed 
+                
+variable_player:
+    timer_p1_egg_bonus_score_tick{device.counters.p1_multiplier.value==1}:  
+        p1_score: 1000
+    timer_p1_egg_bonus_score_tick{device.counters.p1_multiplier.value==2}:        
+        p1_score: 2000
+    timer_p1_egg_bonus_score_tick{device.counters.p1_multiplier.value==3}:        
+        p1_score: 3000       
+    timer_p1_egg_bonus_score_tick{device.counters.p1_multiplier.value==4}:        
+        p1_score: 5000
+    timer_p1_egg_bonus_score_tick:
+        p1_egg_bonus:
+            int: ticks_remaining #-1
+            action: set
+    timer_p2_egg_bonus_score_tick{device.counters.p2_multiplier.value==1}:  
+        p2_score: 1000
+    timer_p2_egg_bonus_score_tick{device.counters.p2_multiplier.value==2}:        
+        p2_score: 2000
+    timer_p2_egg_bonus_score_tick{device.counters.p2_multiplier.value==3}:        
+        p2_score: 3000      
+    timer_p2_egg_bonus_score_tick{device.counters.p2_multiplier.value==4}:        
+        p2_score: 5000
+    timer_p2_egg_bonus_score_tick:
+        p2_egg_bonus:
+            int: ticks_remaining #-1
+            action: set
+
+timers:
+  p1_egg_bonus_score:
+    start_value: 0
+    end_value: current_player.p1_total_egg_bonus
+    direction: up
+    tick_interval: 45ms   
+    control_events:
+      - event: start_p1_egg_bonus_score
+        action: restart
+      - event: start_p2_egg_bonus_score
+        action: stop          
+  p2_egg_bonus_score:
+    start_value: 0
+    end_value: current_player.p2_total_egg_bonus
+    direction: up
+    tick_interval: 45ms 
+    control_events:
+      - event: start_p2_egg_bonus_score
+        action: restart        
+      - event: egg_bonus_tally_complete
+        action: stop         
+sound_player: 
+    play_egg_bonus_sound:  
+      egg_bonus:
+        action: play
+    p1_multiplier_count_down:
+      egg_bonus:
+        action: play
+    timer_p1_egg_bonus_score_complete: 
+      egg_bonus:
+        action: stop
+      pterodactyl:
+        action: play
+        events_when_stopped: p1_multiplier_count_down           
+    p2_multiplier_count_down:
+      egg_bonus:
+        action: play
+    timer_p2_egg_bonus_score_complete: 
+      egg_bonus:
+        action: stop
+      pterodactyl:
+        action: play
+        events_when_stopped: p2_multiplier_count_down          
+    egg_bonus_tally_complete:
+      egg_bonus:
+        action: stop           
+light_player:
+    start_p1_egg_bonus_score{device.counters.p1_multiplier.value==1}:
+        l_p1_2xmulti: black
+        l_p1_3xmulti: black
+        l_p1_5xmulti: black
+    start_p1_egg_bonus_score{device.counters.p1_multiplier.value==2}:
+        l_p1_2xmulti: red
+        l_p1_3xmulti: black
+        l_p1_5xmulti: black    
+    start_p1_egg_bonus_score{device.counters.p1_multiplier.value==3}:
+        l_p1_2xmulti: red
+        l_p1_3xmulti: red
+        l_p1_5xmulti: black       
+    start_p1_egg_bonus_score{device.counters.p1_multiplier.value==4}:
+        l_p1_2xmulti: red
+        l_p1_3xmulti: red
+        l_p1_5xmulti: red
+    start_p1_egg_bonus_score{device.counters.p2_multiplier.value==2}:
+        l_p2_2xmulti: red
+        l_p2_3xmulti: black
+        l_p2_5xmulti: black    
+    start_p1_egg_bonus_score{device.counters.p2_multiplier.value==3}:
+        l_p2_2xmulti: red
+        l_p2_3xmulti: red
+        l_p2_5xmulti: black       
+    start_p1_egg_bonus_score{device.counters.p2_multiplier.value==4}:
+        l_p2_2xmulti: red
+        l_p2_3xmulti: red
+        l_p2_5xmulti: red 
+#P2 Light count down
+    start_p2_egg_bonus_score{device.counters.p2_multiplier.value==1}:
+        l_p2_2xmulti: black
+        l_p2_3xmulti: black
+        l_p2_5xmulti: black
+    start_p2_egg_bonus_score{device.counters.p2_multiplier.value==2}:
+        l_p2_2xmulti: red
+        l_p2_3xmulti: black
+        l_p2_5xmulti: black    
+    start_p2_egg_bonus_score{device.counters.p2_multiplier.value==3}:
+        l_p2_2xmulti: red
+        l_p2_3xmulti: red
+        l_p2_5xmulti: black       
+    start_p2_egg_bonus_score{device.counters.p2_multiplier.value==4}:
+        l_p2_2xmulti: red
+        l_p2_3xmulti: red
+        l_p2_5xmulti: red 

@@ -1,0 +1,87 @@
+#config_version=5
+
+mode:
+  start_events: round1end
+  stop_events: mode_unlimited_multiball_started
+  priority: 300
+  events_when_started:
+      - disableAutofire #disable the flippers and slingshot autofire
+      - disable_p1_flipper
+      - disable_single_player
+      - disable_double_player
+      - enable_front_lock
+      - enable_back_lock
+      - intermission
+
+event_player:
+#This is to end the round when the troughs are full
+    balldevice_bd_trough_back_ball_count_changed{balls==2 and device.ball_devices.bd_trough_front.balls==2}: #trigger when there is 2 balls in front trough and 2 in back       
+      - start_round1end_timer       
+    balldevice_bd_trough_front_ball_count_changed{balls==2 and device.ball_devices.bd_trough_back.balls==2}: #trigger when there is 2 balls in front trough and 2 in back 
+      - start_round1end_timer 
+    timer_round1end_timer_complete: 
+      - stop_intermission2
+    intermission_complete:
+      - reset_droptargets   
+      - disable_front_lock
+      - disable_back_lock   
+      - start_mode_unlimited_multiball
+
+
+show_player:
+    intermission: 
+        intermission:
+            action: play
+            speed: 1
+            loops: 0
+    start_intermission2:
+        p1_intermission_light:
+            action: play
+            speed: 10
+            loops: -1
+        p2_intermission_light:
+            action: play
+            speed: 10
+            loops: -1
+    stop_intermission2:
+        p1_intermission_light:
+            action: stop
+        p2_intermission_light:
+            action: stop
+        intermission3:     
+            action: play
+            speed: 1
+            loops: 0
+            
+sound_player:
+    intermission: 
+        intermission1:
+            action: play
+            loops: 0
+            events_when_stopped: start_intermission2           
+    start_intermission2:      
+        intermission2:
+            action: play
+            loops: -1
+    stop_intermission2:
+        intermission2:
+            action: stop
+        intermission3:
+            action: play
+            loops: 0
+            events_when_stopped: intermission_complete    
+
+timers:
+    round1end_timer: 
+        start_value: 2
+        end_value: 0
+        direction: down
+        control_events:
+            - event: start_round1end_timer
+              action: start 
+
+variable_player:
+    timer_round1end_timer_tick: 
+        timer_round1end_timer_variable:
+            int: ticks
+            action: set

@@ -1,0 +1,186 @@
+#config_version=5
+#configuraton for hunter, slingshots, and drain
+
+mode:
+    start_events: ball_starting, start_mode_unlimited_multiball
+    stop_events: round1end, round2end
+    priority: 178
+#counters: #moved to single_player, double_player, and colab modes
+
+shots:
+#Player 1 side
+    p1_hunter1_shot:
+        switch: s_p1_hunter_roll_1
+        show_tokens:
+            led: l_p1_hunter1
+            color: tt_green
+    p1_hunter2_shot:
+        switch: s_p1_hunter_bull_2
+        show_tokens:
+            led: l_p1_hunter2
+            color: tt_green 
+    p1_hunter3_shot:
+        switch: s_p1_hunter_bull_3
+        show_tokens:
+            led: l_p1_hunter3
+            color: tt_green 
+#Player 2 side
+    p2_hunter1_shot:
+        switch: s_p2_hunter_roll_1
+        show_tokens:
+            led: l_p2_hunter1
+            color: tt_green
+    p2_hunter2_shot:
+        switch: s_p2_hunter_bull_2
+        show_tokens:
+            led: l_p2_hunter2
+            color: tt_green 
+    p2_hunter3_shot:
+        switch: s_p2_hunter_bull_3
+        show_tokens:
+            led: l_p2_hunter3
+            color: tt_green      
+shot_groups: 
+    p1_hunter_shot_group:
+        shots: p1_hunter1_shot, p1_hunter2_shot, p1_hunter3_shot
+        reset_events: p1_hunter_shot_group_complete
+    p2_hunter_shot_group:
+        shots: p2_hunter1_shot, p2_hunter2_shot, p2_hunter3_shot
+        reset_events: p2_hunter_shot_group_complete 
+variable_player:
+  #P1 Slings and Drain
+    s_p1_l_slingshot_active:
+        p1_score: 10
+    s_p1_r_slingshot_active:
+        p1_score: 10
+    s_p1_r_drain_active: 
+        p1_score: 1000
+  #P1 Hunter
+    s_p1_hunter_roll_1_active:
+        p1_score: 100
+    s_p1_hunter_bull_2_active:
+        p1_score: 100
+    s_p1_hunter_bull_3_active:
+        p1_score: 100
+    p1_hunter_group_done{count==1}:
+        p1_score: 30000
+        p1_egg_bonus: 3
+    p1_hunter_group_done{count==2}:
+        p1_score: 50000
+        p1_egg_bonus: 5
+  #P2 Slings and Drain
+    s_p2_l_slingshot_active:
+        p2_score: 10
+    s_p2_r_slingshot_active:
+        p2_score: 10
+    s_p2_r_drain_active: 
+        p2_score: 1000 
+  #P2 Hunter
+    s_p2_hunter_roll_1_active:
+        p2_score: 100
+    s_p2_hunter_bull_2_active:
+        p2_score: 100
+    s_p2_hunter_bull_3_active:
+        p2_score: 100
+    p2_hunter_group_done{count==1}:
+        p2_score: 30000
+        p2_egg_bonus: 3
+    p2_hunter_group_done{count==2}:
+        p2_score: 50000
+        p2_egg_bonus: 5 
+show_player:
+#Player 1 Side
+    p1_hunter_shot_group_complete:
+        flashColor2:
+            loops: 3
+            speed: 3
+            show_tokens:
+                led: l_p1_hunter1, l_p1_hunter2, l_p1_hunter3
+                color: tt_green
+    p1_hunter_group_done{count==0}:
+        flashColor:
+            show_tokens:
+                led: l_p1_50k5eggs, l_p1_extra_ball
+                color: black             
+    p1_hunter_group_done{count==1}:
+        flashColor:
+            show_tokens:
+                led: l_p1_50k5eggs
+                color: tt_green              
+    p1_hunter_group_done{count==2}:
+        flashColor:
+            show_tokens:
+                led: l_p1_extra_ball
+                color: tt_green
+        color_on:
+            show_tokens:
+                led: l_p1_50k5eggs
+                color: tt_green             
+    p1_hunter_group_done{count==3}:
+        color_on:    
+            show_tokens:
+                led: l_p1_50k5eggs, l_p1_extra_ball
+                color: black
+#Player 2 Side
+    p2_hunter_shot_group_complete:
+        flashColor2:
+            loops: 3
+            speed: 3
+            show_tokens:
+                led: l_p2_hunter1, l_p2_hunter2, l_p2_hunter3
+                color: tt_green
+    p2_hunter_group_done{count==0}:
+        flashColor:
+            show_tokens:
+                led: l_p2_50k5eggs, l_p2_extra_ball
+                color: black 
+    p2_hunter_group_done{count==1}:
+        flashColor:
+            show_tokens:
+                led: l_p2_50k5eggs
+                color: tt_green              
+    p2_hunter_group_done{count==2}:
+        flashColor:
+            show_tokens:
+                led: l_p2_extra_ball
+                color: tt_green
+        color_on:
+            show_tokens:
+                led: l_p2_50k5eggs
+                color: tt_green             
+    p2_hunter_group_done{count==3}:
+        color_on:    
+            show_tokens:
+                led: l_p2_50k5eggs, l_p2_extra_ball
+                color: black
+sound_player:
+#Player 1
+    p1_hunter_shot_group_complete: 
+        hunter:
+            action: stop
+        hunter_complete:
+            action: play        
+    p1_hunter1_shot_hit: hunter        
+    p1_hunter2_shot_hit: hunter 
+    p1_hunter3_shot_hit: hunter
+    s_p1_l_flipper_button_active: flipper_flap        
+    s_p1_r_flipper_button_active: flipper_flap
+    s_p1_l_slingshot_active: l_sling
+    s_p1_r_slingshot_active: r_sling
+    s_p1_r_drain_active: drain_rollover
+    s_p1_trough4_active: ball_drain_trough   
+#Player 2
+    p2_hunter_shot_group_complete: 
+        hunter:
+            action: stop
+        hunter_complete:
+            action: play        
+    p2_hunter1_shot_hit: hunter        
+    p2_hunter2_shot_hit: hunter 
+    p2_hunter3_shot_hit: hunter               
+    s_p2_l_flipper_button_active: flipper_flap        
+    s_p2_r_flipper_button_active: flipper_flap
+    s_p2_l_slingshot_active: l_sling
+    s_p2_r_slingshot_active: r_sling
+    s_p2_r_drain_active: drain_rollover
+    s_p2_trough4_active: ball_drain_trough 

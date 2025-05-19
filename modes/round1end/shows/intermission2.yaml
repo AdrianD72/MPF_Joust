@@ -1,0 +1,5 @@
+#show_version=5
+- time: 1
+  lights: 
+    l_p1_unlimited_balls: tt_red
+    l_p2_unlimited_balls: tt_red

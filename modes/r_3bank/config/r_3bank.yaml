@@ -1,0 +1,304 @@
+#config_version=5
+# right 3-Bank drop target mode
+mode:
+    start_events: carousel_item_selected, start_mode_unlimited_multiball
+    stop_events: round1end, round2end
+    priority: 556
+timers:
+    p1_r_3bank:
+        start_value: 1
+        end_value: 3
+        restart_on_complete: true
+        file_log: none
+        control_events:
+            - event: mode_r_3bank_started
+              action: start
+            - event: p1_r_3bank_targets_counter_hit
+              action: stop  
+            - event: reset_r3d_value
+              action: restart                 
+    p2_r_3bank:
+        start_value: 1
+        end_value: 3
+        restart_on_complete: true
+        file_log: none
+        control_events:
+            - event: mode_r_3bank_started
+              action: start
+            - event: p2_r_3bank_targets_counter_hit
+              action: stop  
+            - event: reset_r3d_value
+              action: restart 
+
+counters:
+    p1_r_3bank_counter:
+        count_events: timer_p1_r_3bank_complete
+        starting_count: 0
+        count_interval: 1
+        direction: up
+        count_complete_value: 5
+        disable_on_complete: false
+        reset_on_complete: true
+        reset_events: reset_r3d_value
+        multiple_hit_window: 500ms 
+        file_log: none
+    p1_r_3bank_targets:
+        count_events: p1_r_3bank_1_shot_hit, p1_r_3bank_2_shot_hit, p1_r_3bank_3_shot_hit
+        multiple_hit_window: 500ms
+        starting_count: 0
+        count_interval: 1
+        direction: up
+        count_complete_value: 3
+        disable_on_complete: false
+        reset_on_complete: true
+        reset_events: reset_r3d_value
+        events_when_hit: p1_r_3bank_targets_counter_hit    
+        file_log: none
+    p2_r_3bank_counter:
+        count_events: timer_p2_r_3bank_complete
+        starting_count: 0
+        count_interval: 1
+        direction: up
+        count_complete_value: 5
+        disable_on_complete: false
+        reset_on_complete: true
+        reset_events: reset_r3d_value
+        multiple_hit_window: 500ms 
+        file_log: none
+    p2_r_3bank_targets:
+        count_events: p2_r_3bank_1_shot_hit, p2_r_3bank_2_shot_hit, p2_r_3bank_3_shot_hit
+        multiple_hit_window: 500ms
+        starting_count: 0
+        count_interval: 1
+        direction: up
+        count_complete_value: 3
+        disable_on_complete: false
+        reset_on_complete: true
+        reset_events: reset_r3d_value
+        events_when_hit: p2_r_3bank_targets_counter_hit 
+        file_log: none
+shots:
+#Player 1 side
+    p1_r_3bank_1_shot:
+        switch: s_p1_r_3drop_l 
+    p1_r_3bank_2_shot:
+        switch: s_p1_r_3drop_c
+    p1_r_3bank_3_shot:
+        switch: s_p1_r_3drop_r
+#Player 2 side
+    p2_r_3bank_1_shot:
+        switch: s_p2_r_3drop_l 
+    p2_r_3bank_2_shot:
+        switch: s_p2_r_3drop_c
+    p2_r_3bank_3_shot:
+        switch: s_p2_r_3drop_r
+shot_groups:
+    p1_r_3bank_group:
+        shots: p1_r_3bank_3_shot, p1_r_3bank_2_shot, p1_r_3bank_1_shot
+        reset_events: p1_r_3bank_group_complete, p2_r_3bank_group_complete
+    p2_r_3bank_group:
+        shots: p2_r_3bank_3_shot, p2_r_3bank_2_shot, p2_r_3bank_1_shot
+        reset_events: p1_r_3bank_group_complete, p2_r_3bank_group_complete
+
+variable_player:
+#Player 1 side
+    logicblock_p1_r_3bank_counter_updated:
+        p1_r_3bank_counter_count:
+            int: value
+            action: set
+    p1_r_3bank_1_shot_hit:
+        p1_score: 1000
+    p1_r_3bank_2_shot_hit:
+        p1_score: 1000
+    p1_r_3bank_3_shot_hit:
+        p1_score: 1000
+    drop_target_bank_p1_r_3bank_down{device.counters.p1_r_3bank_counter.value==0}:
+        p1_score: 30000
+        p1_egg_bonus: 1
+    drop_target_bank_p1_r_3bank_down{device.counters.p1_r_3bank_counter.value==1}:
+        p1_score: 50000
+        p1_egg_bonus: 2
+    drop_target_bank_p1_r_3bank_down{device.counters.p1_r_3bank_counter.value==2}:
+        p1_score: 100000
+        p1_egg_bonus: 4
+    drop_target_bank_p1_r_3bank_down{device.counters.p1_r_3bank_counter.value==3}:
+        p1_score: 150000
+        p1_egg_bonus: 8
+    drop_target_bank_p1_r_3bank_down{device.counters.p1_r_3bank_counter.value==4}:
+        p1_score: 200000
+        p1_egg_bonus: 16                               
+#Player 2 side
+    logicblock_p2_r_3bank_counter_updated:
+        p2_r_3bank_counter_count:
+            int: value
+            action: set
+    p2_r_3bank_1_shot_hit:
+        p2_score: 1000
+    p2_r_3bank_2_shot_hit:
+        p2_score: 1000
+    p2_r_3bank_3_shot_hit:
+        p2_score: 1000
+    drop_target_bank_p2_r_3bank_down{device.counters.p2_r_3bank_counter.value==0}:
+        p2_score: 30000
+        p2_egg_bonus: 1
+    drop_target_bank_p2_r_3bank_down{device.counters.p2_r_3bank_counter.value==1}:
+        p2_score: 50000
+        p2_egg_bonus: 2
+    drop_target_bank_p2_r_3bank_down{device.counters.p2_r_3bank_counter.value==2}:
+        p2_score: 100000
+        p2_egg_bonus: 4
+    drop_target_bank_p2_r_3bank_down{device.counters.p2_r_3bank_counter.value==3}:
+        p2_score: 150000
+        p2_egg_bonus: 8
+    drop_target_bank_p2_r_3bank_down{device.counters.p2_r_3bank_counter.value==4}:
+        p2_score: 200000
+        p2_egg_bonus: 16  
+
+shows:
+#Player 1 side
+    p1_quickflashColor:
+        - duration: 200ms
+          lights:
+              (led): (color)
+        - duration: 100ms
+          lights:
+              (led): off    
+    p1_white_on_off:
+        - time: 0
+          lights:
+              (led): tt_white
+              (ledoff): black
+#Player 2 side
+    p2_quickflashColor:
+        - duration: 200ms
+          lights:
+              (led): (color)
+        - duration: 100ms
+          lights:
+              (led): off
+    p2_white_on_off:
+        - time: 0
+          lights:
+              (led): tt_white
+              (ledoff): black
+show_player:
+#Player 1 side
+    logicblock_p1_r_3bank_counter_updated{value==0}:
+        p1_quickflashColor: 
+            show_tokens:
+                led: l_p1_gi_17
+                color: tt_white
+        p1_white_on_off:
+            show_tokens:
+                ledoff: l_p1_r3b50k, l_p1_r3b100k, l_p1_r3b150k 
+    logicblock_p1_r_3bank_counter_updated{value==1}:
+        p1_quickflashColor: 
+            show_tokens:
+                led: l_p1_r3b50k
+                color: tt_white
+        p1_white_on_off:
+            show_tokens:
+                ledoff: l_p1_r3b100k, l_p1_r3b150k
+    logicblock_p1_r_3bank_counter_updated{value==2}:
+        p1_quickflashColor: 
+            show_tokens:
+                led: l_p1_r3b100k
+                color: tt_white
+        p1_white_on_off:
+            show_tokens:
+                led: l_p1_r3b50k 
+                ledoff: l_p1_r3b150k                               
+    logicblock_p1_r_3bank_counter_updated{value==3}:
+        p1_quickflashColor: 
+            show_tokens:
+                led: l_p1_r3b150k
+                color: tt_white
+        p1_white_on_off:
+            show_tokens:
+                led: l_p1_r3b50k, l_p1_r3b100k   
+    logicblock_p1_r_3bank_counter_updated{value==4}:
+        p1_quickflashColor: 
+            show_tokens:
+                led: l_p1_r3b200k
+                color: tt_white                                      
+        p1_white_on_off:
+            show_tokens:
+                led: l_p1_r3b50k, l_p1_r3b100k, l_p1_r3b150k 
+    logicblock_p1_r_3bank_counter_updated{value==5}:
+        p1_quickflashColor: 
+            show_tokens:
+                led: l_p1_gi_17
+                color: tt_white
+        p1_white_on_off:
+            show_tokens:
+                ledoff: l_p1_r3b50k, l_p1_r3b100k, l_p1_r3b150k           
+#Player 2 side
+    logicblock_p2_r_3bank_counter_updated{value==0}:
+        p2_quickflashColor: 
+            show_tokens:
+                led: l_p2_gi_47
+                color: tt_white
+        p2_white_on_off:
+            show_tokens:
+                ledoff: l_p2_r3b50k, l_p2_r3b100k, l_p2_r3b150k 
+    logicblock_p2_r_3bank_counter_updated{value==1}:
+        p2_quickflashColor: 
+            show_tokens:
+                led: l_p2_r3b50k
+                color: tt_white
+        p2_white_on_off:
+            show_tokens:
+                ledoff: l_p2_r3b100k, l_p2_r3b150k
+    logicblock_p2_r_3bank_counter_updated{value==2}:
+        p2_quickflashColor: 
+            show_tokens:
+                led: l_p2_r3b100k
+                color: tt_white
+        p2_white_on_off:
+            show_tokens:
+                led: l_p2_r3b50k 
+                ledoff: l_p2_r3b150k                               
+    logicblock_p2_r_3bank_counter_updated{value==3}:
+        p2_quickflashColor: 
+            show_tokens:
+                led: l_p2_r3b150k
+                color: tt_white
+        p2_white_on_off:
+            show_tokens:
+                led: l_p2_r3b50k, l_p2_r3b100k   
+    logicblock_p2_r_3bank_counter_updated{value==4}:
+        p2_quickflashColor: 
+            show_tokens:
+                led: l_p2_r3b200k
+                color: tt_white                                      
+        p2_white_on_off:
+            show_tokens:
+                led: l_p2_r3b50k, l_p2_r3b100k, l_p2_r3b150k 
+    logicblock_p2_r_3bank_counter_updated{value==5}:
+        p2_quickflashColor: 
+            show_tokens:
+                led: l_p2_gi_47
+                color: tt_white
+        p2_white_on_off:
+            show_tokens:
+                ledoff: l_p2_r3b50k, l_p2_r3b100k, l_p2_r3b150k  
+
+sound_player:
+#Player 1
+    p1_r_3bank_1_shot_hit: r_3drop
+    p1_r_3bank_2_shot_hit: r_3drop
+    p1_r_3bank_3_shot_hit: r_3drop    
+    drop_target_bank_p1_r_3bank_down:
+        r_3drop:
+            action: stop
+        r_3drop_complete:
+            action: play
+#Player 2
+    p2_r_3bank_1_shot_hit: r_3drop
+    p2_r_3bank_2_shot_hit: r_3drop
+    p2_r_3bank_3_shot_hit: r_3drop    
+    drop_target_bank_p2_r_3bank_down:
+        r_3drop:
+            action: stop
+        r_3drop_complete:
+            action: play       

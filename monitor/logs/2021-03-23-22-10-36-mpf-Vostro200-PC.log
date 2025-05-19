@@ -1,0 +1,7 @@
+2021-03-23 22:10:36,455 : INFO : root : Loading config.
+2021-03-23 22:10:37,157 : INFO : ConfigProcessor : Config spec file cache created: C:\Users\VOSTRO~1\AppData\Local\Temp\config_spec.mpf_cache
+2021-03-23 22:10:37,157 : INFO : YamlMultifileConfigLoader : Machine config file #1: config.yaml
+2021-03-23 22:10:37,157 : WARNING : ConfigProcessor : Cache file not found: C:\Users\VOSTRO~1\AppData\Local\Temp\88a5a3d40ed283c71705667eb548045a.mpf_cache
+2021-03-23 22:10:37,157 : INFO : ConfigProcessor : Loading config from file c:\program files\python36\lib\site-packages\mpf\mpfconfig.yaml.
+2021-03-23 22:10:37,282 : INFO : ConfigProcessor : Loading config: c:\program files\python36\lib\site-packages\mpf\mpfconfig.yaml
+2021-03-23 22:10:37,298 : INFO : ConfigProcessor : Loading config from file C:\Users\Vostro 200\OneDrive\MPF\j_h2h\monitor\config\config.yaml.

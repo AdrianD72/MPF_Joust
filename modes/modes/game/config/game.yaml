@@ -1,0 +1,7 @@
+#config_version=5
+mode:
+  start_events: game_start
+  priority: 21
+  code: game.HeadToHeadGame
+
+

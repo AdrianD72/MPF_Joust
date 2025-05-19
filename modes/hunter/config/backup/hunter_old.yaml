@@ -1,0 +1,152 @@
+#config_version=5
+#attract mode config file
+mode:
+    start_events: ball_starting
+    priority: 123
+extra_balls:
+    hunter:
+        award_events: p1_hunter_group_count_complete, p2_hunter_group_count_complete
+counters:
+    p1_hunter_group_count:
+        count_events: p1_hunter_group_complete
+        events_when_hit: p1_hunter_group_done
+        starting_count: 0
+        direction: up
+        persist_state: true 
+        count_complete_value: 3
+        reset_on_complete: true
+        disable_on_complete: false               
+    p2_hunter_group_count:
+        count_events: p2_hunter_group_complete
+        events_when_hit: p2_hunter_group_done
+        starting_count: 0
+        direction: up
+        persist_state: true 
+        count_complete_value: 3
+        reset_on_complete: true
+        disable_on_complete: false
+variable_player:
+#Player 1 Side
+    s_p1_hunter_roll_1_active:
+        p1_score: 100
+    s_p1_hunter_bull_2_active:
+        p1_score: 100
+    s_p1_hunter_bull_3_active:
+        p1_score: 100
+    p1_hunter_group_done{count==1}:
+        p1_score: 30000
+        p1_egg_bonus: 3
+    p1_hunter_group_done{count==2}:
+        p1_score: 50000
+        p1_egg_bonus: 5
+    p1_hunter_group_done{count==3}:  
+        lives_front: 
+            int: 1
+            action: add
+        
+#Player 2 Side
+    s_p2_hunter_roll_1_active:
+        p2_score: 100
+    s_p2_hunter_bull_2_active:
+        p2_score: 100
+    s_p2_hunter_bull_3_active:
+        p2_score: 100
+    p2_hunter_group_done{count==1}:
+        p2_score: 30000
+        p2_egg_bonus: 3
+    p2_hunter_group_done{count==2}:
+        p2_score: 50000
+        p2_egg_bonus: 5            
+    p2_hunter_group_done{count==3}:  
+        lives_front: 
+            int: 1
+            action: add
+shots:
+#Player 1 side
+    p1_hunter1_shot:
+        switch: s_p1_hunter_roll_1
+        show_tokens:
+            led: l_p1_hunter1
+            color: tt_green
+    p1_hunter2_shot:
+        switch: s_p1_hunter_bull_2
+        show_tokens:
+            led: l_p1_hunter2
+            color: tt_green 
+    p1_hunter3_shot:
+        switch: s_p1_hunter_bull_3
+        show_tokens:
+            led: l_p1_hunter3
+            color: tt_green 
+#Player 2 side
+    p2_hunter1_shot:
+        switch: s_p2_hunter_roll_1
+        show_tokens:
+            led: l_p2_hunter1
+            color: tt_green
+    p2_hunter2_shot:
+        switch: s_p2_hunter_bull_2
+        show_tokens:
+            led: l_p2_hunter2
+            color: tt_green 
+    p2_hunter3_shot:
+        switch: s_p2_hunter_bull_3
+        show_tokens:
+            led: l_p2_hunter3
+            color: tt_green      
+
+shot_groups:
+    p1_hunter_group:
+        shots: p1_hunter1_shot, p1_hunter2_shot, p1_hunter3_shot
+        reset_events: p1_hunter_group_complete
+    p2_hunter_group:
+        shots: p2_hunter1_shot, p2_hunter2_shot, p2_hunter3_shot
+        reset_events: p2_hunter_group_complete 
+
+show_player:
+#Player 1 Side
+    p1_hunter_group_done{count==0}:
+        flashColor:
+            show_tokens:
+                led: l_p1_50k5eggs, l_p1_extra_ball
+                color: black             
+    p1_hunter_group_done{count==1}:
+        flashColor:
+            show_tokens:
+                led: l_p1_50k5eggs
+                color: tt_green              
+    p1_hunter_group_done{count==2}:
+        flashColor:
+            show_tokens:
+                led: l_p1_extra_ball
+                color: tt_green
+        color_on:
+            show_tokens:
+                led: l_p1_50k5eggs
+                color: tt_green             
+    p1_hunter_group_done{count==3}:
+        offLED:    
+            show_tokens:
+                led: l_p1_50k5eggs, l_p1_extra_ball
+#Player 2 Side
+    p2_hunter_group_done{count==1}:
+        flashColor:
+            show_tokens:
+                led: l_p2_50k5eggs
+                color: tt_green              
+    p2_hunter_group_done{count==2}:
+        flashColor:
+            show_tokens:
+                led: l_p2_extra_ball
+                color: tt_green
+        color_on:
+            show_tokens:
+                led: l_p2_50k5eggs
+                color: tt_green             
+    p2_hunter_group_done{count==3}:
+        offLED:    
+            show_tokens:
+                led: l_p2_50k5eggs, l_p2_extra_ball
+sound_player:
+    p1_hunter_group_hit: hunter
+    p1_hunter_group_complete: hunter_complete

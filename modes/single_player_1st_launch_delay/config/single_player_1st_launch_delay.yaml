@@ -1,0 +1,129 @@
+#config_version=5
+# This is to wait for the flipper button press to start the game for single player
+# 3-6-2025 Added in launch_timeout timer to automatically launch the ball
+
+mode:
+  start_events: carousel_single_player_selected
+  stop_events: playfield_ball_count_change #{balls==1}
+  priority: 851
+
+event_player:
+    single_player_start_sound{count==3}: launch_ball #this is to launch the balls if buttons are mashed
+    timer_single_player_launch_timeout_complete: launch_ball #added 3-5-2025 to automatically launch the ball at a set time in case there is a bug or no one hits launch
+
+counters:
+    single_player_start_sound: #this was added to prevent multiple playing of the sound by hitting the start button 
+        count_events: sw_right_flipper
+        events_when_hit: single_player_start_sound
+        starting_count: 0
+        count_complete_value: 4
+        direction: up
+        persist_state: true 
+        multiple_hit_window: 500ms   
+timers: #added 3-5-2025 to automatically launch the ball at a set time in case there is a bug or no one hits launch
+    single_player_launch_timeout:
+        start_value: 15
+        end_value: 0
+        direction: down
+        control_events:
+            - event: mode_1st_launch_delay_started
+              action: start
+
+queue_relay_player:
+    balldevice_bd_launcher_back_ball_eject_attempt:
+        post: back_launcher_ready
+        wait_for: launch_ball
+
+show_player:
+    single_player_start: 
+        start:
+            action: play
+            speed: 1.5
+            loops: 0
+    mode_single_player_1st_launch_delay_started:
+        single_press_right_button:
+            action: play
+    launch_ball:
+        press_right_button:
+            action: stop 
+shows:
+    single_press_right_button:
+      - duration: 2  
+        segment_displays:
+         neoSeg0:
+            text: "  PRESS"
+            transition:
+               type: push
+               direction: left
+         neoSeg1:
+            text: "  PRESS"
+            transition:
+               type: push
+               direction: left
+      - duration: 2  
+        segment_displays:
+         neoSeg0:
+            text: " RIGHT "
+            transition:
+               type: push
+               direction: left
+         neoSeg1:
+            text: " RIGHT "
+            transition:
+               type: push
+               direction: left
+      - duration: 1  
+        segment_displays:
+         neoSeg0:
+            text: "FLIPPER"
+            transition:
+               type: push
+               direction: left                               
+         neoSeg1:
+            text: "FLIPPER"
+            transition:
+               type: push
+               direction: left 
+      - duration: 1  
+        segment_displays:
+         neoSeg0:
+            text: "   BUTTON"
+            transition:
+               type: push
+               direction: left
+         neoSeg1:
+            text: "   BUTTON"
+            transition:
+               type: push
+               direction: left
+      - duration: .5  
+        segment_displays:
+         neoSeg0:
+            text: "   to  "
+            transition:
+               type: push
+               direction: left
+         neoSeg1:
+            text: "   to  "
+            transition:
+               type: push
+               direction: left
+      - duration: 1  
+        segment_displays:
+         neoSeg0:
+            text: " JOUST "
+            transition:
+               type: push
+               direction: left
+         neoSeg1:
+            text: " JOUST "
+            transition:
+               type: push
+               direction: left
+sound_player:
+    single_player_start_sound{count==1}: 
+      game_start:
+        action: play
+        events_when_stopped: launch_ball                          
+      player_start:
+        action: stop

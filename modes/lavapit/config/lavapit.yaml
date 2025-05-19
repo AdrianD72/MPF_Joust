@@ -1,0 +1,127 @@
+#config_version=5
+#lavapit mode 
+mode:
+    start_events: carousel_item_selected, start_mode_unlimited_multiball
+    stop_events: round1end, round2end
+    priority: 500
+
+shots:
+#Player 1 side
+    p1_eject_hole_shot: #lava pit
+        switch: s_p1_eject_hole
+        profile: p1_lavapit_profile 
+#Player 2 side
+    p2_eject_hole_shot: #lava pit
+        switch: s_p2_eject_hole
+        profile: p2_lavapit_profile 
+shot_profiles:
+#Player 1 Side
+    p1_lavapit_profile:
+      states:
+         - name: p1_lava0
+           show: p1_lava0start
+         - name: p1_lava20
+           show: p1_lava20insert
+         - name: p1_lava30
+           show: p1_lava30insert
+         - name: p1_lava50
+           show: p1_lava50insert
+      loop: yes      
+#Player 2 Side
+    p2_lavapit_profile:
+      states:
+         - name: p2_lava0
+           show: p2_lava0start
+         - name: p2_lava20
+           show: p2_lava20insert
+         - name: p2_lava30
+           show: p2_lava30insert
+         - name: p2_lava50
+           show: p2_lava50insert
+      loop: yes
+
+variable_player:
+  #P1 Lava Pit
+    p1_eject_hole_shot_p1_lava0_hit:
+        p1_score: 5000 
+        p1_egg_bonus: 1
+    p1_eject_hole_shot_p1_lava20_hit: 
+        p1_score: 20000
+        p1_egg_bonus: 2
+    p1_eject_hole_shot_p1_lava30_hit: 
+        p1_score: 30000  
+        p1_egg_bonus: 3
+    p1_eject_hole_shot_p1_lava50_hit:
+        p1_score: 50000
+        p1_egg_bonus: 5
+  #P2 Lava Pit 
+    p2_eject_hole_shot_p2_lava0_hit: 
+        p2_score: 5000 
+        p2_egg_bonus: 1
+    p2_eject_hole_shot_p2_lava20_hit: 
+        p2_score: 20000
+        p2_egg_bonus: 2
+    p2_eject_hole_shot_p2_lava30_hit: 
+        p2_score: 30000  
+        p2_egg_bonus: 3
+    p2_eject_hole_shot_p2_lava50_hit: 
+        p2_score: 50000
+        p2_egg_bonus: 5
+shows:
+#Player 1 Side
+    p1_lava0start:
+        - time: 0
+          lights:
+              l_p1_eject_hole: tt_blue
+              l_p1_eject50k: off
+    p1_lava20insert:
+        - time: 0
+          lights:
+              l_p1_eject20k: tt_blue
+    p1_lava30insert:
+        - time: 0
+          lights:
+              l_p1_eject20k: off
+              l_p1_eject30k: tt_blue
+    p1_lava50insert:
+        - time: 0
+          lights:
+              l_p1_eject30k: off
+              l_p1_eject50k: tt_blue
+#Player 2 Side
+    p2_lava0start:
+        - time: 0
+          lights:
+              l_p2_eject_hole: tt_blue
+              l_p2_eject50k: off
+    p2_lava20insert:
+        - time: 0
+          lights:
+              l_p2_eject20k: tt_blue
+    p2_lava30insert:
+        - time: 0
+          lights:
+              l_p2_eject20k: off
+              l_p2_eject30k: tt_blue
+    p2_lava50insert:
+        - time: 0
+          lights:
+              l_p2_eject30k: off
+              l_p2_eject50k: tt_blue
+                
+show_player:
+    mode_lavapit_started:
+        color_on2:
+            show_tokens:
+                led: l_p1_eject_hole, l_p2_eject_hole
+                color: tt_blue
+            priority: 1
+sound_player:
+#Player1
+    s_p1_eject_hole_active:
+        eject_hole:
+           action: play      
+#Player2
+    s_p2_eject_hole_active:
+        eject_hole:
+           action: play

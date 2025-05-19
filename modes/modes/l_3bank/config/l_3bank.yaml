@@ -1,0 +1,246 @@
+#config_version=5
+# Left 3 bank drop target mode
+mode:
+    start_events: carousel_item_selected, start_mode_unlimited_multiball
+    stop_events: start_mode_egg_bonus_tally
+    priority: 553
+event_player:
+    p1_collect_egg_bonus: p1_reset_collect_bonus
+    p2_collect_egg_bonus: p2_reset_collect_bonus
+counters:
+# player 1 side
+    p1_l_3bank_counter:
+        count_events: drop_target_bank_p1_l_3bank_down
+        events_when_hit: p1_l_3bank_done
+        starting_count: 0
+        direction: up
+        count_complete_value: 4 
+        reset_on_complete: true 
+        disable_on_complete: false
+        multiple_hit_window: 1s 
+# player 1 side
+    p2_l_3bank_counter:
+        count_events: drop_target_bank_p2_l_3bank_down
+        events_when_hit: p2_l_3bank_done
+        starting_count: 0
+        direction: up
+        count_complete_value: 4 
+        reset_on_complete: true 
+        disable_on_complete: false
+        multiple_hit_window: 1s  
+shots:
+# player 1 side
+    p1_l_3bank_1_shot:
+        switch: s_p1_l_3drop_l 
+    p1_l_3bank_2_shot:
+        switch: s_p1_l_3drop_c
+    p1_l_3bank_3_shot:
+        switch: s_p1_l_3drop_r
+
+# player 2 side
+    p2_l_3bank_1_shot:
+        switch: s_p2_l_3drop_l 
+    p2_l_3bank_2_shot:
+        switch: s_p2_l_3drop_c
+    p2_l_3bank_3_shot:
+        switch: s_p2_l_3drop_r
+
+shot_groups:
+    p1_l_3bank_group:
+        shots: p1_l_3bank_1_shot, p1_l_3bank_2_shot, p1_l_3bank_3_shot
+        reset_events: p1_l_3bank_group_complete, p2_l_3bank_group_complete 
+    p2_l_3bank_group:
+        shots: p2_l_3bank_1_shot, p2_l_3bank_2_shot, p2_l_3bank_3_shot
+        reset_events: p2_l_3bank_group_complete, p1_l_3bank_group_complete        
+
+sequences:
+    p1_collect_egg_bonus_sequence:
+        events: 
+          - p1_eject_hole_shot_p1_lava50_hit, p1_l_3bank_done{count==3}
+          - p1_l_3bank_done
+        events_when_hit: p1_bonus_sequence
+        events_when_complete: p1_collect_egg_bonus
+#        enable_events: ball_started, p1_reset_collect_bonus
+        restart_events: p1_reset_collect_bonus
+    p2_collect_egg_bonus_sequence:
+        events: 
+          - p2_eject_hole_shot_p2_lava50_hit, p2_l_3bank_done{count==3}
+          - p2_l_3bank_done
+        events_when_hit: p2_bonus_sequence
+        events_when_complete: p2_collect_egg_bonus
+#        enable_events: ball_started, p2_reset_collect_bonus
+        restart_events: p2_reset_collect_bonus   
+variable_player:
+# player 1 side
+    p1_l_3bank_1_shot_hit:
+        p1_score: 1000
+    p1_l_3bank_2_shot_hit:
+        p1_score: 1000
+    p1_l_3bank_3_shot_hit:
+        p1_score: 1000            
+    p1_l_3bank_done{count==1}:     
+        p1_total_multiplier:
+            int: 2
+        p1_multiplier_counter:
+            int: 2
+            action: set  
+    p1_l_3bank_done{count==2}: 
+        p1_total_multiplier:
+            int: 3
+        p1_multiplier_counter:
+            int: 3
+            action: set  
+    p1_l_3bank_done{count==3}: 
+        p1_total_multiplier:
+            int: 5
+        p1_multiplier_counter:
+            int: 4
+            action: set  
+    p1_l_3bank_done{count==4}: 
+        p1_total_multiplier:
+            int: 11
+            action: set             
+    logicblock_p1_l_3bank_counter_complete:       
+        p1_total_multiplier:
+            int: 1
+            action: set
+        p1_multiplier_counter:
+            int: 1
+            action: set              
+    p1_collect_egg_bonus:
+        p1_score: 
+            int: 1000 * current_player.p1_egg_bonus * current_player.p1_total_multiplier
+            block: true 
+#player 2 side
+    p2_l_3bank_1_shot_hit:
+        p2_score: 1000
+    p2_l_3bank_2_shot_hit:
+        p2_score: 1000
+    p2_l_3bank_3_shot_hit:
+        p2_score: 1000            
+    p2_l_3bank_done{count==1}:
+        p2_total_multiplier:
+            int: 2
+        p2_multiplier_counter:
+            int: 2
+            action: set  
+    p2_l_3bank_done{count==2}:
+        p2_total_multiplier:
+            int: 3
+        p2_multiplier_counter:
+            int: 3
+            action: set
+    p2_l_3bank_done{count==3}:
+        p2_total_multiplier:
+            int: 5
+        p2_multiplier_counter:
+            int: 4
+            action: set
+    p2_l_3bank_done{count==4}: 
+        p2_total_multiplier:
+            int: 11
+            action: set  
+    logicblock_p2_l_3bank_counter_complete:       
+        p2_total_multiplier:
+            int: 1
+            action: set
+        p2_multiplier_counter:
+            int: 1
+            action: set
+    p2_collect_egg_bonus:
+        p2_score: 
+            int: 1000 * current_player.p2_egg_bonus * current_player.p2_total_multiplier
+            block: true 
+shows:
+#Player 1 side
+    p1_collect_bonus:
+        - duration: 200ms
+          lights:
+              (led): (color)
+        - duration: 100ms
+          lights:
+              (led): off          
+#Player 2 side
+    p2_collect_bonus:
+        - duration: 200ms
+          lights:
+              (led): (color)
+        - duration: 100ms
+          lights:
+              (led): off
+show_player:
+    p1_bonus_sequence{device.sequences.p1_collect_egg_bonus_sequence.value == 1}: 
+        p1_collect_bonus:
+          show_tokens:
+              led: l_p1_collect_egg_bonus
+              color: red 
+    p1_collect_egg_bonus: 
+        p1_collect_bonus:
+          show_tokens:
+              led: l_p1_collect_egg_bonus
+              color: black 
+    p2_bonus_sequence{device.sequences.p2_collect_egg_bonus_sequence.value == 1}: 
+        p2_collect_bonus:
+          show_tokens:
+              led: l_p2_collect_egg_bonus
+              color: red 
+    p2_collect_egg_bonus: 
+        p2_collect_bonus:
+          show_tokens:
+              led: l_p2_collect_egg_bonus
+              color: black    
+light_player:
+#player1 side
+    p1_l_3bank_done{device.counters.p1_l_3bank_counter.value==1}:
+        l_p1_2xmulti: red
+        l_p1_3xmulti: black
+        l_p1_5xmulti: black       
+    p1_l_3bank_done{device.counters.p1_l_3bank_counter.value==2}:
+        l_p1_2xmulti: red
+        l_p1_3xmulti: red
+        l_p1_5xmulti: black   
+    p1_l_3bank_done{device.counters.p1_l_3bank_counter.value==3}:
+        l_p1_2xmulti: red
+        l_p1_3xmulti: red 
+        l_p1_5xmulti: red
+    logicblock_p1_l_3bank_counter_complete:
+        l_p1_2xmulti: black
+        l_p1_3xmulti: black
+        l_p1_5xmulti: black
+#player2 side
+    p2_l_3bank_done{device.counters.p2_l_3bank_counter.value==1}:
+        l_p2_2xmulti: red
+        l_p2_3xmulti: black
+        l_p2_5xmulti: black
+    p2_l_3bank_done{device.counters.p2_l_3bank_counter.value==2}:
+        l_p2_2xmulti: red
+        l_p2_3xmulti: red 
+        l_p2_5xmulti: black
+    p2_l_3bank_done{device.counters.p2_l_3bank_counter.value==3}:
+        l_p2_2xmulti: red
+        l_p2_3xmulti: red 
+        l_p2_5xmulti: red
+    logicblock_p2_l_3bank_counter_complete:
+        l_p2_2xmulti: black
+        l_p2_3xmulti: black
+        l_p2_5xmulti: black
+
+sound_player:
+#Player 1
+    p1_l_3bank_1_shot_hit: l_3drop
+    p1_l_3bank_2_shot_hit: l_3drop
+    p1_l_3bank_3_shot_hit: l_3drop    
+    p1_l_3bank_group_complete:
+        l_3drop:
+            action: stop
+        l_3drop_complete:
+            action: play
+#Player 2
+    p2_l_3bank_1_shot_hit: l_3drop
+    p2_l_3bank_2_shot_hit: l_3drop
+    p2_l_3bank_3_shot_hit: l_3drop    
+    p2_l_3bank_group_complete:
+        l_3drop:
+            action: stop
+        l_3drop_complete:
+            action: play
