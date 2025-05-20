@@ -1,4 +1,4 @@
-#config_version=5
+#config_version=6
 
 # 1/3/2021 - Config file for Joust trough configure test with troughs as multiball locks and no default ball device for the playfield
 
@@ -19,7 +19,6 @@ config:
    - neoSeg_2dig_2.yaml
    - neoSeg_2dig_3.yaml    
 sound_system:
-    master_volume: 0.75
     tracks:
        music:
           type: standard
@@ -107,6 +106,7 @@ machine_vars:
         initial_value: 0
     total_score:
         initial_value: 0     
+#    master_volume: 0.75
 switches:
     s_no_default:
         number: A3-B0-4 #was player 2 start switch not connected
@@ -1374,7 +1374,7 @@ shows:
         - time: 0
           lights:
               (led): (color)
-        - time: +1
+        - time: "+1"
           lights:
               (led): off
     flashColor2:
@@ -1395,62 +1395,62 @@ shows:
         - time: 0
           lights:
               (led): (color)
-        - time: +1
+        - time: "+1"
           lights:
               (ledB): (color)
-        - time: +1
+        - time: "+1"
           lights:
               (led): off
               (ledC): (color)
-        - time: +1
+        - time: "+1"
           lights:
               (ledB): off
               (ledD): (color)
-        - time: +1
+        - time: "+1"
           lights:
               (ledC): off
-        - time: +1
+        - time: "+1"
           lights:
               (ledD): off              
     sequenceColor2:
         - time: 0
           lights:
               (led): (color)
-        - time: +1
+        - time: "+1"
           lights:
               (led): off
               (ledB): (color)
-        - time: +1
+        - time: "+1"
           lights:
               (ledB): off
               (ledC): (color)
-        - time: +1
+        - time: "+1"
           lights:
               (ledC): off
               (ledD): (color)
-        - time: +1
+        - time: "+1"
           lights:
               (ledD): off              
     sequenceColor1:
         - time: 0
           lights:
               (led): (color)
-        - time: +1
+        - time: "+1"
           lights:
               (ledB): (color)
               (led): off
-        - time: +1
+        - time: "+1"
           lights:
               (ledB): off
               (ledC): (color)
-        - time: +1
+        - time: "+1"
           lights:
               (ledC): off
               (ledD): (color)
-        - time: +1
+        - time: "+1"
           lights:
               (ledD): off
-        - time: +1
+        - time: "+1"
           lights:
               (ledD): off            
 #added for display meow
