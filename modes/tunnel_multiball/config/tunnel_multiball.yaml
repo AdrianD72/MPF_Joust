@@ -1,4 +1,4 @@
-#config_version=5
+#config_version=6
 mode:
   start_events: ball_starting #possibly start this with the second hidden trough switch active
   stop_events: round1end #timer_p1_tunnel_multiball_complete, timer_p2_tunnel_multiball_complete

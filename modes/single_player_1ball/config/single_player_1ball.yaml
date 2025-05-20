@@ -1,4 +1,4 @@
-#config_version=5
+#config_version=6
 #this mode is to make only the back trough launch 1 ball at the beginning of the mode and prevent the front trough from launching
 
 mode:

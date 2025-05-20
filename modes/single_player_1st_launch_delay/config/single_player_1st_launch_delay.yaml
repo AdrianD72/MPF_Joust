@@ -1,4 +1,4 @@
-#config_version=5
+#config_version=6
 # This is to wait for the flipper button press to start the game for single player
 # 3-6-2025 Added in launch_timeout timer to automatically launch the ball
 
