@@ -1,68 +1,68 @@
-#show_version=5
+#show_version=6
 - duration: 1
   lights:
     l_p1_eggbonus1: tt_blue
     l_p2_eggbonus1: tt_blue
 - duration: 1
   lights:
-    l_p1_eggbonus1: 008000
+    l_p1_eggbonus1: "008000"
     l_p1_eggbonus2: tt_blue
-    l_p2_eggbonus1: 008000
+    l_p2_eggbonus1: "008000"
     l_p2_eggbonus2: tt_blue
 - duration: 1
   lights:
-    l_p1_eggbonus1: 003000
-    l_p1_eggbonus2: 008000
+    l_p1_eggbonus1: "003000"
+    l_p1_eggbonus2: "008000"
     l_p1_eggbonus4: tt_blue
-    l_p2_eggbonus1: 003000
-    l_p2_eggbonus2: 008000
+    l_p2_eggbonus1: "003000"
+    l_p2_eggbonus2: "008000"
     l_p2_eggbonus4: tt_blue
 - duration: 1
   lights:
-    l_p1_eggbonus1: 000000
-    l_p1_eggbonus2: 003000
-    l_p1_eggbonus4: 008000
+    l_p1_eggbonus1: "000000"
+    l_p1_eggbonus2: "003000"
+    l_p1_eggbonus4: "008000"
     l_p1_eggbonus8: tt_blue
-    l_p2_eggbonus1: 000000
-    l_p2_eggbonus2: 003000
-    l_p2_eggbonus4: 008000
+    l_p2_eggbonus1: "000000"
+    l_p2_eggbonus2: "003000"
+    l_p2_eggbonus4: "008000"
     l_p2_eggbonus8: tt_blue
 - duration: 1
   lights:
-    l_p1_eggbonus2: 000000
-    l_p1_eggbonus4: 003000
-    l_p1_eggbonus8: 008000
+    l_p1_eggbonus2: "000000"
+    l_p1_eggbonus4: "003000"
+    l_p1_eggbonus8: "008000"
     l_p1_eggbonus16: tt_blue
-    l_p2_eggbonus2: 000000
-    l_p2_eggbonus4: 003000
-    l_p2_eggbonus8: 008000
+    l_p2_eggbonus2: "000000"
+    l_p2_eggbonus4: "003000"
+    l_p2_eggbonus8: "008000"
     l_p2_eggbonus16: tt_blue
 - duration: 1
   lights:
-    l_p1_eggbonus4: 000000
-    l_p1_eggbonus8: 003000
-    l_p1_eggbonus16: 008000
+    l_p1_eggbonus4: "000000"
+    l_p1_eggbonus8: "003000"
+    l_p1_eggbonus16: "008000"
     l_p1_eggbonus32: tt_blue
-    l_p2_eggbonus4: 000000
-    l_p2_eggbonus8: 003000
-    l_p2_eggbonus16: 008000
+    l_p2_eggbonus4: "000000"
+    l_p2_eggbonus8: "003000"
+    l_p2_eggbonus16: "008000"
     l_p2_eggbonus32: tt_blue
 - duration: 1
   lights:
-    l_p1_eggbonus8: 000000
-    l_p1_eggbonus16: 003000
-    l_p1_eggbonus32: 008000
-    l_p2_eggbonus8: 000000
-    l_p2_eggbonus16: 003000
-    l_p2_eggbonus32: 008000
+    l_p1_eggbonus8: "000000"
+    l_p1_eggbonus16: "003000"
+    l_p1_eggbonus32: "008000"
+    l_p2_eggbonus8: "000000"
+    l_p2_eggbonus16: "003000"
+    l_p2_eggbonus32: "008000"
 - duration: 1
   lights:
-    l_p1_eggbonus16: 000000
-    l_p1_eggbonus32: 003000
-    l_p2_eggbonus16: 000000
-    l_p2_eggbonus32: 003000
+    l_p1_eggbonus16: "000000"
+    l_p1_eggbonus32: "003000"
+    l_p2_eggbonus16: "000000"
+    l_p2_eggbonus32: "003000"
 - duration: 1
   lights:
-    l_p1_eggbonus32: 000000
-    l_p2_eggbonus32: 000000
+    l_p1_eggbonus32: "000000"
+    l_p2_eggbonus32: "000000"
 
