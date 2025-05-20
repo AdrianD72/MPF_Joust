@@ -1,5 +1,5 @@
 # MPF_Joust
-This is the code for MPF for my Joust head to head pinball machine that was running at 2025 Golden State Pinball festival. It is for v0.56.0-dev.18.
+This is the code for MPF for my Joust head to head pinball machine that was running at 2025 Golden State Pinball festival. It was running MPF v0.56.0-dev.18 then. The revised code work in progress is for v0.57.
 It is set up for displaying the score and direcions to start a game on an external monitor as well as on the segment displays.
 A few know issues/improvments needed:
   - Commas on displays do not work
