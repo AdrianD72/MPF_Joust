@@ -9,7 +9,7 @@ mode_settings:
   selectable_items: double_player, co-op, single_player
   select_item_events: s_p1_r_flipper_button_inactive, s_1p_start_button_inactive
   next_item_events: s_p1_l_flipper_button_inactive
-  previous_item_events: s_p2_l_flipper_button_inactive
+  previous_item_events: s_p2_hunter_bull_3_inactive
   block_events: flipper_cancel #what is this - check this may need to be same as select_item_events
   release_events: both_flippers_inactive
 event_player:
