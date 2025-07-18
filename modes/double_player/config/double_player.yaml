@@ -12,8 +12,8 @@ event_player:
     mode_unlimited_multiball_started: 
       - enable_p1_flipper
       - enable_double_player
-    logicblock_lives_front_counter_complete{device.counters.lives_back_counter.value==0}: round1end
-    logicblock_lives_back_counter_complete{device.counters.lives_front_counter.value==0}: round1end
+    logicblock_lives_front_counter_complete{device.counters.lives_back_counter.value==0}: start_mode_unlimited_multiball #round1end #7-17-2025 change - to skip ball balancing
+    logicblock_lives_back_counter_complete{device.counters.lives_front_counter.value==0}: start_mode_unlimited_multiball #round1end #7-17-2025 change - to skip ball balancing
 counters:
     lives_front_counter:
         count_events: s_p1_trough4_active       
