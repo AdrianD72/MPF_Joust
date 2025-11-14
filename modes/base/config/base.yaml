@@ -5,11 +5,11 @@ mode:
     priority: 126
     events_when_started: enable_prevent_drain
 
-timed_switches:
-  game_cancel:
-    switch_tags: start
-    time: 5s
-    events_when_active: end_game
+#timed_switches:
+#  game_cancel:
+#    switch_tags: start
+#    time: 5s
+#    events_when_active: end_game
 ball_saves:
     prevent_drain: #This is to have lives counter work and not have the ball drains count in the front trough
         enable_events: enable_prevent_drain

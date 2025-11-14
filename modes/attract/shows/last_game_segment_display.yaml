@@ -23,7 +23,7 @@
 - duration: 6  
   segment_displays:
          neoSeg0:
-            text: "{machine.p1_score:0>1d}"
+            text: "{machine.p1_score:0>1,d}"
             transition:
                type: push
                direction: left
@@ -32,7 +32,7 @@
          neoSeg2d1:
             text: "00"
          neoSeg1:
-            text: "{machine.p2_score:0>1d}" 
+            text: "{machine.p2_score:0>1,d}" 
             transition:
                type: push
                direction: left
@@ -40,7 +40,7 @@
             text: "00"
          neoSeg2d3:
             text: "00"
-- duration: 2  
+- duration: 1  
   segment_displays:
          neoSeg0:
             text: "      PRESS"
@@ -52,7 +52,7 @@
             transition:
                type: push
                direction: left
-- duration: 2  
+- duration: 1.5  
   segment_displays:
          neoSeg0:
             text: " LEFT "
@@ -80,7 +80,7 @@
             transition:
                type: push
                direction: left
-- duration: 2  
+- duration: 1  
   segment_displays:
          neoSeg0:
             text: " JOUST "

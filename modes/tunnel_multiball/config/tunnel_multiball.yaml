@@ -1,21 +1,29 @@
 #config_version=6
 mode:
   start_events: ball_starting #possibly start this with the second hidden trough switch active
-  stop_events: round1end #timer_p1_tunnel_multiball_complete, timer_p2_tunnel_multiball_complete
+  stop_events: round1end, start_mode_unlimited_multiball
   priority: 180
-
 event_player:
     p1_disap_t_roll_hit: 
       - start_tunnel_multiball
       - eject_all #this is needed because for some reason after the first game - will not eject balls 
       - reset_target_tunnel
+      - disable_front_lock
+      - disable_back_lock
     p2_disap_t_roll_hit: 
       - start_tunnel_multiball
       - eject_all #this is needed because for some reason after the first game - will not eject balls 
       - reset_target_tunnel
+      - disable_front_lock
+      - disable_back_lock
     timer_p1_tunnel_multiball_complete: end_tunnel_multiball
     timer_p2_tunnel_multiball_complete: end_tunnel_multiball
-    
+accruals:
+  tunnel_multiball_end:
+    events:
+      - multiball_lock_trough_back1_full
+      - multiball_lock_trough_front1_full
+    events_when_complete: lives_counter_enable
 timers:
     p1_tunnel_multiball: #this timer is for preventing drains for p1 when they initiate the multiball
         start_value: 16

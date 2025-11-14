@@ -9,7 +9,7 @@ light_settings:
 
 lights:
    l_neoseg_0_4_b:
-      start_channel: 0-576 #should be board-0-channel where channel=[channels per pixel] x [pixels before NeoSeg].
+      previous: l_p1_hunter3 #From P1 inserts end
       type: w
       subtype: led
       tags: l_neoseg_0_4
@@ -750,8 +750,9 @@ segment_displays:
   neoSeg0:
     number: 1
     size: 7
+    update_method: stack
     integrated_dots: true
-    #use_dots_for_commas: true
+    use_dots_for_commas: true
     default_transition_update_hz: 14 #24
     platform_settings:
       lights:

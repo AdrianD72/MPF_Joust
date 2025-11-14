@@ -193,6 +193,7 @@ segment_displays:
   neoSeg2d3:
     number: 1
     size: 8
+    update_method: stack
     integrated_dots: true
     default_transition_update_hz: 24
     platform_settings:
