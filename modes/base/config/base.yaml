@@ -2,14 +2,17 @@
 
 mode:
     start_events: ball_starting
-    priority: 126
+    priority: 960
     events_when_started: enable_prevent_drain
-
-#timed_switches:
-#  game_cancel:
-#    switch_tags: start
-#    time: 5s
-#    events_when_active: end_game
+event_player:
+  timer_reset_hold_timer_complete: 
+    - disableAutofire #disable the flippers and slingshot autofire
+    - disable_p1_flipper
+    - disable_single_player
+    - disable_double_player
+    - enable_front_lock
+    - enable_back_lock
+    - end_game
 ball_saves:
     prevent_drain: #This is to have lives counter work and not have the ball drains count in the front trough
         enable_events: enable_prevent_drain
@@ -32,7 +35,17 @@ multiball_locks:
         lock_devices: bd_trough_back
         balls_to_replace: 0 #A value of 0 means the lock will never replace balls to the playfield from the default source (bd_trough_front), and -1 means it will always replace balls
         locked_ball_counting_strategy: physical_only
-
+timers:
+  reset_hold_timer:
+    start_value: 3
+    end_value: 0
+    direction: down
+    tick_interval: 1s
+    control_events:
+      - action: start
+        event: sw_end_game_active
+      - action: reset
+        event: sw_end_game_inactive
 shots:
 #Player 1 side
     p1_r_drain_shot:
@@ -40,6 +53,25 @@ shots:
 #Player 2 side
     p2_r_drain_shot:
         switch: s_p2_r_drain
+
+variable_player:
+  timer_reset_hold_timer_tick:
+    reset_progress_var:
+      int: ticks
+      action: set
+  sw_end_game_inactive:
+    reset_progress_var:
+      int: 0
+      action: set
+
+slide_player:
+  sw_end_game_active: reset_countdown_slide # Show the slide as soon as the switch is pressed
+  sw_end_game_inactive: # Remove the slide if the switch is released or if the timer finishes
+    reset_countdown_slide:
+      action: remove
+  timer_reset_hold_timer_complete:
+    reset_countdown_slide:
+      action: remove
 
 show_player:
     mode_base_started:
@@ -62,3 +94,20 @@ sound_player:
     balldevice_bd_launcher_back_ejecting_ball: explosion
 #Player2
     balldevice_bd_launcher_front_ejecting_ball: explosion
+
+slides:
+  reset_countdown_slide:
+    widgets:
+      - type: text
+        text: RESETTING IN
+        font_name: joust
+        font_size: 40
+        color: red
+        y: 60%
+      - type: text
+        # This dynamically pulls the current value from the timer
+        text: (reset_progress_var)
+        font_size: 80
+        font_name: joust
+        color: red
+        y: 40%

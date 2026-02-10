@@ -114,12 +114,42 @@ machine_vars:
     total_score:
         initial_value: 0     
 #    master_volume: 0.75
+logging:
+  console_log: info
+  file_log: info
+  device_logging_levels:
+    timers: none
+  events_to_ignore:
+    - player_r_3bank_p1_r_3bank_tick
+    - player_p1_r_3bank_tick
+    - timer_p1_r_3bank_tick
+    - timer_p1_r_3bank_started
+    - timer_p1_r_3bank_stopped
+    - player_r_3bank_p2_r_3bank_tick
+    - player_p2_r_3bank_tick
+    - timer_p2_r_3bank_tick
+    - timer_p2_r_3bank_started
+    - timer_p2_r_3bank_stopped
+    - logicblock_p1_r_3bank_counter_updated
+    - logicblock_p2_r_3bank_counter_updated
+    - player_p1_r_3bank_counter_count
+    - player_p2_r_3bank_counter_count
 switches:
     s_no_default:
         number: A3-B0-4 #was player 2 start switch not connected
+    s_test_1:
+        number: COM3-0-1
+        platform: opp
+    s_test_2:
+        number: COM3-0-2
+        platform: opp
+    s_test_3:
+        number: COM3-0-3
+        platform: opp
  # Player 1 Switches
     s_p1_spin:
-        number: A0-B0-0 
+        number: A0-B0-0
+        tags: playfield_active 
     s_p1_l_3drop_r:
         number: A0-B0-1
         tags: p1_l3bank
@@ -140,8 +170,10 @@ switches:
         ignore_window_ms: 800ms 
     s_p1_disap_t_roll: #for starting tunnel multiball
         number: A0-B0-6
+        tags: playfield_active
     s_p1_hunter_bull_2:
         number: A0-B0-7 
+        tags: playfield_active
     s_p1_r_3drop_r:
         number: A0-B1-1
         tags: p1_r3bank  
@@ -158,6 +190,7 @@ switches:
         number: A0-B1-4
     s_p1_hunter_bull_3:
         number: A0-B1-5
+        tags: playfield_active
         ignore_window_ms: 800ms 
     s_p1_l_flipper_button_far:
         number: A1-B0-0
@@ -176,13 +209,15 @@ switches:
         tags: right_flipper
         debug: true
     s_p2_lane_opto:
-        number: A1-B0-4 
+        number: A1-B0-4
+        tags: playfield_active 
         type: NC 
-    s_1p_start_button:
+    s_end_game_button:
         number: A1-B0-5
-        tags: select
+        tags: end_game
     s_p1_hunter_roll_1:
         number: A1-B0-6
+        tags: playfield_active
     s_p1_l_slingshot:
         number: A1-B0-7
         tags: slings  
@@ -206,13 +241,15 @@ switches:
         number: A1-B1-5
         tags: home 
     s_p1_r_drain:
-        number: A1-B1-6  
+        number: A1-B1-6
+        tags: playfield_active
     s_p1_r_slingshot:
         number: A1-B1-7
-        tags: slings  
+        tags: slings
  # Player 2 Switches
     s_p2_spin:
         number: A2-B0-0
+        tags: playfield_active
     s_p2_l_3drop_r:
         number: A2-B0-1
         ignore_window_ms: 800ms 
@@ -223,15 +260,17 @@ switches:
         number: A2-B0-3
         ignore_window_ms: 800ms 
     s_p2_disap_t_1:
-        number: A2-B0-4 
+        number: A2-B0-4
         ignore_window_ms: 800ms 
     s_p2_disap_t_2:
-        number: A2-B0-5 
-
+        number: A2-B0-5
+        ignore_window_ms: 800ms 
     s_p2_disap_t_roll:
         number: A2-B0-6
+        tags: playfield_active
     s_p2_hunter_bull_2:
-        number: A2-B0-7 
+        number: A2-B0-7
+        tags: playfield_active 
     s_p2_r_3drop_r:
         tags: p2_r3bank 
         number: A2-B1-1
@@ -248,6 +287,7 @@ switches:
         number: A2-B1-4
     s_p2_hunter_bull_3:
         number: A2-B1-5
+        tags: playfield_active
     s_p2_l_flipper_button_far:
         number: A3-B0-0
         tags:
@@ -266,21 +306,23 @@ switches:
     #    label:
     #    tags: 
     s_p1_lane_opto:
-        number: A3-B0-5    
-        type: NC 
+        number: A3-B0-5
+        tags: playfield_active
+        type: NC
     s_p2_hunter_roll_1:
         number: A3-B0-6
+        tags: playfield_active
     s_p2_l_slingshot:
         number: A3-B0-7
         tags: slings 
     s_p2_trough4:
         number: A3-B1-0
-        tags: drain  
+        tags: drain
     s_p2_trough3:
         number: A3-B1-1
     s_p2_trough2:
         number: A3-B1-2
-        tags: home         
+        tags: home        
     s_p2_trough1:
         number: A3-B1-3
         type: NC
@@ -293,6 +335,7 @@ switches:
         tags: home
     s_p2_r_drain:
         number: A3-B1-6
+        tags: playfield_active
     s_p2_r_slingshot:
         number: A3-B1-7
         tags: slings
@@ -834,8 +877,7 @@ lights:
     l_p1_hunter3:
         previous: l_p1_eject50k
         type: grb
-        tags: inserts, hunter
-         
+        tags: inserts, hunter        
 coils:
  # Player 1 Coils Left
     c_p1_l_flipper_hold:
@@ -857,14 +899,15 @@ coils:
         default_pulse_ms: 90
     c_p1_l_3drop:
         number: A0-B0-7
-        default_pulse_ms: 30
- # Player 1 Coils Right
+        default_pulse_ms: 90
+  # Player 1 Coils Right
     c_p1_r_3drop:
         number: A0-B1-1 
-        default_pulse_ms: 30  
+        default_pulse_ms: 90  
     c_p1_ball_trough:
         number: A0-B1-2
-        default_pulse_ms: 25
+        default_pulse_ms: 30
+        default_pulse_power: 0.80
     c_p1_ball_launcher:
         number: A0-B1-3
         default_pulse_ms: 35 
@@ -882,7 +925,7 @@ coils:
     c_p1_r_flipper_hold: 
         number: A0-B1-7
         allow_enable: true
-# Player 2 Coils Left
+ # Player 2 Coils Left
     c_p2_l_flipper_hold:
         number: A1-B0-0
         allow_enable: true
@@ -902,18 +945,19 @@ coils:
         default_pulse_ms: 90
     c_p2_l_3drop:
         number: A1-B0-7
-        default_pulse_ms: 30 
-# Player 2 Coils Right
+        default_pulse_ms: 90
+ # Player 2 Coils Right
     c_p2_r_flipper:
         number: A1-B1-0
         default_pulse_ms: 23
         default_pulse_power: 0.75 
     c_p2_r_3drop:
         number: A1-B1-1 
-        default_pulse_ms: 30  
+        default_pulse_ms: 90  
     c_p2_ball_trough:
         number: A1-B1-2
-        default_pulse_ms: 25 
+        default_pulse_ms: 30
+        default_pulse_power: 0.80
     c_p2_ball_launcher:
         number: A1-B1-3
         default_pulse_ms: 35 
@@ -926,9 +970,7 @@ coils:
         default_pulse_power: 0.75
     c_p2_r_flipper_hold:
         number: A1-B1-7
-        allow_enable: true
-
-        
+        allow_enable: true        
 flippers:
     p1_left_flipper:
         main_coil: c_p1_l_flipper
@@ -1005,7 +1047,7 @@ drop_targets:
     p1_r_1:
         switch: s_p1_r_3drop_l
         playfield: playfield
-# Player 2 side
+ # Player 2 side
     p2_disap_t_1:
         switch: s_p2_disap_t_1
         reset_coil: c_p2_disap_t_1
@@ -1070,7 +1112,7 @@ ball_devices:
         ball_switches: s_no_default
         mechanical_eject: true
         debug: true 
-# player 1 side
+ # player 1 side
     bd_trough_front:
         ball_switches: s_p1_trough4, s_p1_trough3, s_p1_trough2, s_p1_trough1, s_p1_trough_jam   
         eject_coil: c_p1_ball_trough
@@ -1099,7 +1141,7 @@ ball_devices:
         eject_timeouts: 1s
         target_on_unexpected_ball: playfield
         eject_targets: playfield
-# player 2 side
+ # player 2 side
     bd_trough_back:
         ball_switches: s_p2_trough4, s_p2_trough3, s_p2_trough2, s_p2_trough1, s_p2_trough_jam
         eject_coil: c_p2_ball_trough
@@ -1129,12 +1171,10 @@ ball_devices:
         eject_timeouts: 1s                                
         target_on_unexpected_ball: playfield
         eject_targets: playfield        
-
 playfields:
     playfield:
         tags: default
         default_source_device: bd_no_default #this is what allows there to have the troughs not linked to the default playfield eject queue
-
 autofire_coils:
     p1_l_slingshot:
         coil: c_p1_l_slingshot
@@ -1168,6 +1208,7 @@ game:
     allow_start_with_loose_balls: true #needed to add this for starting in the virtual mode for when the system thinks there are still balls on the playfield     
     end_game_event: end_game
 modes:
+  - tilt
   - 1st_launch_delay
   - attract
   - base
@@ -1198,7 +1239,7 @@ kivy_config:
     window_icon:
   graphics:
     borderless: true
-    window_state: visible # visible, hidden, maximized, minimized
+    window_state: maximized # visible, hidden, maximized, minimized
     fbo: hardware # hardware, software, force-hardware
     fullscreen: true
     left: 0
@@ -1215,12 +1256,12 @@ displays:
   monitor:
     width: 1280
     height: 768
-#  virtual_segment: #comment out for production
-#    width: 600
-#    height: 768
-#  combined_display: #comment out for production
-#    width: 1880
-#    height: 768
+ #  virtual_segment: #comment out for production
+ #    width: 600
+ #    height: 768
+ #  combined_display: #comment out for production
+ #    width: 1880
+ #    height: 768
 slides:
   base_slide:
     background_color: black
@@ -1346,12 +1387,11 @@ slides:
         z: 3
         x: right - 484 
 #slide_player: #comment out for production 
-#  mc_ready:
-#    base_slide:
-#      target: combined_display
+ #  mc_ready:
+ #    base_slide:
+ #      target: combined_display
 virtual_segment_display_connector:
   segment_displays: neoSeg0, neoSeg1, neoSeg2d0, neoSeg2d1, neoSeg2d2, neoSeg2d3
-
 shows:
     release:
         - duration: 200ms
@@ -1459,8 +1499,7 @@ shows:
         - time: "+1"
           lights:
               (ledD): off            
-#added for display meow
-    P1_score:
+    P1_score: #added for display
         - duration: -1
           segment_displays:
             neoSeg0:
@@ -1490,7 +1529,6 @@ shows:
           segment_displays:
             neoSeg2d3:
                 text: (txt)
-
 sounds:
     egg_bonus:
         volume: 1
@@ -1609,13 +1647,14 @@ sounds:
         volume: 1
         file: "EndofGame.wav"
         track: sfx 
-
 sound_player:
     egg_bonus_tally_complete:
       end_of_game:
         action: play
         events_when_played: end_egg_bonus_tally
 images:
+  mpf_logo:
+    file: mpf_logo.png
   joust_logo:
     file: joust_logo.jpg
   joust_logo_sm:

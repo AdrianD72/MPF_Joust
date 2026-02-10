@@ -3,7 +3,7 @@
 
 mode:
     start_events: carousel_single_player_selected #changed from ball_starting so that the carousel starts with ball starting
-    priority: 144
+    priority: 801
 event_player:
     mode_single_player_started:
       - enable_prevent_drain #this was not on - addded 3-26-2025
@@ -15,9 +15,27 @@ event_player:
       - enable_single_player
       - disable_front_lock
       - disable_back_lock
-    p1_disap_t_roll_hit: disable_front_lock
-    p2_disap_t_roll_hit: disable_front_lock
-    end_tunnel_multiball: enable_front_lock #this is to make it one ball in play after tunnel multiball
+    p1_disap_t_roll_hit{device.counters.single_player_lives.value>=2}:
+      - start_tunnel_multiball
+      - eject_all #this is needed because for some reason after the first game - will not eject balls 
+      - disable_front_lock
+      - disable_back_lock
+    p2_disap_t_roll_hit{device.counters.single_player_lives.value>=2}:
+      - start_tunnel_multiball
+      - eject_all #this is needed because for some reason after the first game - will not eject balls 
+      - disable_front_lock
+      - disable_back_lock   
+    # end_tunnel_multiball: enable_front_lock #this is to make it one ball in play after tunnel multiball
+    multiball_lock_etm_sp_full:
+      - lives_counter_enable
+multiball_locks:    
+    etm_sp:
+        balls_to_lock: 3
+        enable_events: end_tunnel_multiball
+        disable_events: round1end, start_tunnel_multiball  
+        lock_devices: bd_trough_front, bd_trough_back
+        balls_to_replace: 0 #A value of 0 means the lock will never replace balls to the playfield from the default source (bd_trough_front), and -1 means it will always replace balls
+        locked_ball_counting_strategy: physical_only
 counters:
     single_player_lives:
         count_events: s_p1_trough4_active, s_p2_trough4_active        
@@ -34,7 +52,7 @@ counters:
           - event: logicblock_single_p2_hunter_group_count_complete
             action: add
             value: 1 
-        disable_events: p1_disap_t_roll_hit, p2_disap_t_roll_hit, mode_double_player_started 
+        disable_events: start_tunnel_multiball
         enable_events: mode_single_player_started, lives_counter_enable #{device.counters.single_player_lives.value > 0} # added lives_counter_enable and commented out 10-25-2025 #timer_p1_tunnel_multiball_complete{device.counters.single_player_lives.value > 0}, timer_p2_tunnel_multiball_complete{device.counters.single_player_lives.value > 0} #note 3-19-2025 not sure if the value greater than 0 works and why I would add that.
         debug: true 
     single_p1_hunter_group_count:

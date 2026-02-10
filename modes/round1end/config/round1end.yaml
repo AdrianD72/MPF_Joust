@@ -12,6 +12,7 @@ mode:
       - enable_front_lock
       - enable_back_lock
       - intermission
+      - start_autoterminate_round1end_timer
 
 event_player:
 #This is to end the round when the troughs are full
@@ -20,6 +21,8 @@ event_player:
     balldevice_bd_trough_front_ball_count_changed{balls==2 and device.ball_devices.bd_trough_back.balls==2}: #trigger when there is 2 balls in front trough and 2 in back 
       - start_round1end_timer 
     timer_round1end_timer_complete: 
+      - stop_intermission2
+    timer_autoterminate_round1end_complete: #this is in to ensure round1end goes to unlimited_multiball mode
       - stop_intermission2
     intermission_complete:
       - reset_droptargets   
@@ -78,6 +81,13 @@ timers:
         direction: down
         control_events:
             - event: start_round1end_timer
+              action: start 
+    autoterminate_round1end: 
+        start_value: 15
+        end_value: 0
+        direction: down
+        control_events:
+            - event: start_autoterminate_round1end_timer
               action: start 
 
 variable_player:

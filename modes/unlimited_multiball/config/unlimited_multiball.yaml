@@ -11,10 +11,11 @@ mode:
       - start_front_unlimited_multiball
       - start_back_unlimited_multiball
       - eject_all #this is needed because for some reason after the first game - will not eject balls 
+
 event_player:
-    timer_unlimited_multiball_complete:
-      - round2end
- 
+    timer_unlimited_multiball_complete: round2end
+    p1_disap_t_roll_hit: reset_target_tunnel
+    p2_disap_t_roll_hit: reset_target_tunnel
 timers:
     unlimited_multiball:
         start_value: 30

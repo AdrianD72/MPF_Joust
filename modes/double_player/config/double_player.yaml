@@ -3,7 +3,7 @@
 
 mode:
     start_events: carousel_double_player_selected #changed from ball_starting so that the carousel starts with ball starting
-    priority: 148
+    priority: 802
 event_player:
     mode_double_player_started:
       - enable_p1_flipper
@@ -14,6 +14,29 @@ event_player:
       - enable_double_player
     logicblock_lives_front_counter_complete{device.counters.lives_back_counter.value<=0}: round1end
     logicblock_lives_back_counter_complete{device.counters.lives_front_counter.value<=0}: round1end
+    p1_disap_t_roll_hit{device.counters.lives_front_counter.value>=1}: 
+      - start_tunnel_multiball
+      - start_tunnel_multiball_accrual
+      - eject_all #this is needed because for some reason after the first game - will not eject balls 
+      - disable_front_lock
+      - disable_back_lock
+    p2_disap_t_roll_hit{device.counters.lives_back_counter.value>=1}: 
+      - start_tunnel_multiball
+      - start_tunnel_multiball_accrual
+      - eject_all #this is needed because for some reason after the first game - will not eject balls 
+      - disable_front_lock
+      - disable_back_lock
+      - reset_target_tunnel
+    multiball_lock_etm_dp_full:
+      - lives_counter_enable
+multiball_locks:    
+    etm_dp:
+        balls_to_lock: 2
+        enable_events: end_tunnel_multiball
+        disable_events: round1end, start_tunnel_multiball  
+        lock_devices: bd_trough_front, bd_trough_back
+        balls_to_replace: 0 #A value of 0 means the lock will never replace balls to the playfield from the default source (bd_trough_front), and -1 means it will always replace balls
+        locked_ball_counting_strategy: physical_only
 counters:
     lives_front_counter:
         count_events: s_p1_trough4_active       
@@ -27,7 +50,7 @@ counters:
             action: add
             value: 1            
         disable_events: p1_disap_t_roll_hit, mode_single_player_started 
-        enable_events: mode_double_player_started, lives_counter_enable{device.counters.lives_front_counter.value >= 0} # added 10-26-2025 and removed: timer_p1_tunnel_multiball_complete{device.counters.lives_front_counter.value > 0}
+        enable_events: mode_double_player_started, lives_counter_enable{device.counters.lives_front_counter.value>=1} # added 10-26-2025 and removed: timer_p1_tunnel_multiball_complete{device.counters.lives_front_counter.value > 0}
         debug: true 
     lives_back_counter:
         count_events: s_p2_trough4_active
@@ -41,7 +64,7 @@ counters:
             action: add
             value: 1    
         disable_events: p2_disap_t_roll_hit, mode_single_player_started 
-        enable_events: mode_double_player_started, lives_counter_enable{device.counters.lives_back_counter.value >= 0} # added 10-26-2025 and removed: timer_p2_tunnel_multiball_complete{device.counters.lives_back_counter.value > 0} 
+        enable_events: mode_double_player_started, lives_counter_enable{device.counters.lives_back_counter.value>=1} # added 10-26-2025 and removed: timer_p2_tunnel_multiball_complete{device.counters.lives_back_counter.value > 0} 
     p1_hunter_group_count:
         count_events: p1_hunter_shot_group_complete
         events_when_hit: p1_hunter_group_done

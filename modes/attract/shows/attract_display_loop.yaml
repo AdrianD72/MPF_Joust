@@ -171,3 +171,15 @@
          type: fade
          duration: 1s
       target: monitor
+- duration: 12
+  slides:
+    mpf_logo:
+      widgets:
+      - type: image
+        image: mpf_logo
+        anchor_x: center
+        anchor_y: center
+      transition:
+         type: fade
+         duration: 1s
+      target: monitor
