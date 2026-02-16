@@ -117,7 +117,7 @@ sequences:
          - p1_disap_t_roll_hit
        events_when_hit: p_1_target_tunnel
        events_when_complete: p1_target_tunnel_complete
-       restart_events: drop_target_p1_disap_t_1_up, drop_target_p1_disap_t_1_up, start_mode_unlimited_multiball 
+       restart_events: reset_target_tunnel  
 #Player 2 side 
     p_2_target_tunnel:
        events:
@@ -126,7 +126,7 @@ sequences:
          - p2_disap_t_roll_hit
        events_when_hit: p_2_target_tunnel
        events_when_complete: p2_target_tunnel_complete
-       restart_events: drop_target_p2_disap_t_1_up, drop_target_p2_disap_t_1_up, start_mode_unlimited_multiball 
+       restart_events: reset_target_tunnel 
 shows:
 #Player 1 side
     p1_spinner_value:
@@ -169,10 +169,10 @@ show_player:
         p1_spinner_on_off:
             show_tokens:
                 led: l_p1_spinner1k
-    p1_target_tunnel_complete:
-        p1_spinner_on_off:
-            show_tokens:
-                ledoff: l_p1_spinner1k, l_p1_spinner5k, l_p2_spinner1k, l_p2_spinner5k    
+#    p1_target_tunnel_complete:
+ #       p1_spinner_on_off:
+  #          show_tokens:
+   #             ledoff: l_p1_spinner1k, l_p1_spinner5k, l_p2_spinner1k, l_p2_spinner5k    
 #Player 2 side
     p2_disap_t_1_hit:
         p2_spinner_value: 
@@ -187,20 +187,29 @@ show_player:
         p2_spinner_on_off:
             show_tokens:
                 led: l_p2_spinner1k
-    p2_target_tunnel_complete:
-        p1_spinner_on_off:
-            show_tokens:
-                ledoff: l_p1_spinner1k, l_p1_spinner5k, l_p2_spinner1k, l_p2_spinner5k
+#    p2_target_tunnel_complete:
+ #       p1_spinner_on_off:
+  #          show_tokens:
+   #             ledoff: l_p1_spinner1k, l_p1_spinner5k, l_p2_spinner1k, l_p2_spinner5k
 #Both
     reset_target_tunnel:
-        p1_spinner_on_off:
+        p1_spinner_value: 
             show_tokens:
-                ledoff: l_p1_spinner1k, l_p1_spinner5k, l_p2_spinner1k, l_p2_spinner5k
+                led: l_p1_spinner1k, l_p1_spinner5k
+                color: black
+        p2_spinner_value: 
+            show_tokens:
+                led: l_p2_spinner1k, l_p2_spinner5k
+                color: black
     mode_round1end_started:
-        p1_spinner_on_off:
+        p1_spinner_value: 
             show_tokens:
-                ledoff: l_p1_spinner1k, l_p1_spinner5k, l_p2_spinner1k, l_p2_spinner5k
-
+                led: l_p1_spinner1k, l_p1_spinner5k
+                color: black
+        p2_spinner_value: 
+            show_tokens:
+                led: l_p2_spinner1k, l_p2_spinner5k
+                color: black
 light_player:
 #player1 side
     p1_tunnel_bonus{count==1}:

@@ -3,15 +3,19 @@ mode:
   start_events: start_mode_unlimited_multiball 
   priority: 401
   events_when_started:
+      - reset_droptargets #added 10-26-2025
+      - disable_front_lock #added 10-26-2025
+      - disable_back_lock #added 10-26-2025 
       - enableAutofire
       - enable_unlimited_mulitiball 
       - start_front_unlimited_multiball
       - start_back_unlimited_multiball
       - eject_all #this is needed because for some reason after the first game - will not eject balls 
+
 event_player:
-    timer_unlimited_multiball_complete:
-      - round2end
- 
+    timer_unlimited_multiball_complete: round2end
+    p1_disap_t_roll_hit: reset_target_tunnel
+    p2_disap_t_roll_hit: reset_target_tunnel
 timers:
     unlimited_multiball:
         start_value: 30
@@ -36,21 +40,21 @@ variable_player:
             action: set #not sure why this is not working and the timer ends on 1
 multiballs:
     p1_unlimited:
-        ball_count: 2
-        ball_count_type: add
-        ball_locks: bd_trough_back
+        ball_count: 4 #2
+        ball_count_type: total #add
+        ball_locks: bd_trough_back, bd_trough_front #added front trough
         enable_events: enable_unlimited_mulitiball 
         start_events: start_back_unlimited_multiball 
         stop_events: round2end
         shoot_again: 2d      
-    p2_unlimited:
-        ball_count: 2
-        ball_count_type: add
-        ball_locks: bd_trough_front
-        enable_events: enable_unlimited_mulitiball 
-        start_events: start_front_unlimited_multiball
-        stop_events: round2end
-        shoot_again: 2d
+    #p2_unlimited:
+     #   ball_count: 2
+     #   ball_count_type: add
+     #   ball_locks: bd_trough_front
+     #   enable_events: enable_unlimited_mulitiball 
+     #   start_events: start_front_unlimited_multiball
+     #   stop_events: round2end
+     #   shoot_again: 2d
                   
 shows:
     multiball_flash:

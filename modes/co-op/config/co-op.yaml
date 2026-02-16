@@ -3,18 +3,41 @@
 
 mode:
     start_events: carousel_co-op_selected #changed from ball_starting so that the carousel starts with ball starting
-    priority: 149
+    priority: 803
 event_player:
     mode_co-op_started:
+      - enable_prevent_drain 
       - enable_p1_flipper
-      - enable_double_player
-      - enable_prevent_drain       
+      - enable_double_player      
+    logicblock_cooperative_balls_updated{device.counters.cooperative_balls.value==1}: #this is to drain to 1 ball before ending 
+      - enable_front_lock
+#      - enable_back_lock #eliminated one of the ball locks for the rare case balls drain at the same time they will lock before the ball count gets to 0
+#      - coop_end
+    p1_disap_t_roll_hit{device.counters.cooperative_balls.value>=2}:
+      - start_tunnel_multiball
+      - start_tunnel_multiball_accrual
+      - eject_all #this is needed because for some reason after the first game - will not eject balls 
+      - disable_front_lock
+      - disable_back_lock
+    p2_disap_t_roll_hit{device.counters.cooperative_balls.value>=2}: 
+      - start_tunnel_multiball
+      - start_tunnel_multiball_accrual
+      - eject_all #this is needed because for some reason after the first game - will not eject balls 
+      - disable_front_lock
+      - disable_back_lock
     mode_unlimited_multiball_started: 
       - enable_p1_flipper
       - enable_double_player
-    logicblock_cooperative_balls_updated{device.counters.cooperative_balls.value==1}: #this is to drain to 1 ball before ending 
-      - enable_front_lock
-      - enable_back_lock
+    multiball_lock_etm_coop_full:
+      - lives_counter_enable
+multiball_locks:    
+    etm_coop:
+        balls_to_lock: 2
+        enable_events: end_tunnel_multiball
+        disable_events: round1end, start_tunnel_multiball  
+        lock_devices: bd_trough_front, bd_trough_back
+        balls_to_replace: 0 #A value of 0 means the lock will never replace balls to the playfield from the default source (bd_trough_front), and -1 means it will always replace balls
+        locked_ball_counting_strategy: physical_only
 counters:
     cooperative_balls:
         count_events: s_p1_trough4_active, s_p2_trough4_active       
@@ -31,8 +54,8 @@ counters:
           - event: logicblock_cooperative_p2_hunter_group_count_complete
             action: add
             value: 1
-        disable_events: p1_disap_t_roll_hit, p2_disap_t_roll_hit, mode_single_player_started 
-        enable_events: mode_co-op_started, timer_p1_tunnel_multiball_complete, timer_p2_tunnel_multiball_complete
+        disable_events: start_tunnel_multiball
+        enable_events: mode_co-op_started, lives_counter_enable #{device.counters.cooperative_balls.value > 0} #timer_p1_tunnel_multiball_complete, timer_p2_tunnel_multiball_complete
         debug: true 
     cooperative_p1_hunter_group_count:
         count_events: p1_hunter_shot_group_complete
@@ -56,7 +79,6 @@ counters:
         disable_on_complete: false
         multiple_hit_window: 500ms
         disable_events: mode_single_player_started, mode_double_player_started         
-
 slide_player:
   mode_co-op_started:
     co-op_monitor:
@@ -137,6 +159,25 @@ slides:
             - property: opacity         # second step in the animation (starts with a hyphen)
               value: 1
               duration: 0s
+      - type: text
+        font_name: joust
+        text: MULTIBALL TIME (timer_tunnel_multiball_variable)
+        y: 90
+        min_digits: 2
+        font_size: 54
+        color: red
+        anchor_x: center
+        anchor_y: bottom
+        opacity: 0
+        animations:
+          start_tunnel_multiball:                  
+            - property: opacity
+              value: 1
+              duration: 0s
+          timer_tunnel_multiball_stopped:
+            - property: opacity
+              value: 0
+              duration: 0s 
       - type: image
         image: multiball
         anchor_x: center
@@ -160,11 +201,11 @@ show_player:
     player_total_score:
         P1_score:
             show_tokens:
-                txt: "{current_player.total_score:0>1d}"
+                txt: "{current_player.total_score:0>1,d}"
             key: p1score
         P2_score:
             show_tokens:
-                txt: "{current_player.total_score:0>1d}"
+                txt: "{current_player.total_score:0>1,d}"
             key: p2score
     player_cooperative_balls: #need to make sure this is the player variable
         P1_lives:
@@ -184,7 +225,6 @@ show_player:
             show_tokens:
                 txt: "{current_player.timer_unlimited_multiball_variable:0>1d}"
             key: timer2
-
 variable_player:    
     logicblock_cooperative_balls_updated:
         cooperative_balls:
