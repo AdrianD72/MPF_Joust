@@ -13,7 +13,7 @@ event_player:
 
 counters:
     start_sound: #this was added to prevent multiple playing of the sound by hitting the start button 
-        count_events: sw_right_flipper
+        count_events: sw_right_flipper, sw_launch_inactive
         events_when_hit: start_sound
         starting_count: 0
         count_complete_value: 4
@@ -45,8 +45,24 @@ show_player:
     mode_1st_launch_delay_started:
         press_right_button:
             action: play
+        sequenceColor:
+            speed: 6
+            priority: 5
+            show_tokens:
+                color: tt_white
+                ledB: l_right_flipper1
+                ledD: l_right_flipper2
+        quickflashColor:
+            speed: 1
+            show_tokens:
+                color: green
+                led: l_launch
     launch_ball:
         press_right_button:
+            action: stop
+        sequenceColor:
+            action: stop
+        quickflashColor:
             action: stop
 shows:
    press_right_button:

@@ -7,7 +7,7 @@ mode:
   #game_mode: false
 mode_settings:
   selectable_items: double_player, co-op, single_player
-  select_item_events: s_p1_r_flipper_button_inactive, s_1p_start_button_inactive
+  select_item_events: s_p1_r_flipper_button_inactive, s_start_inactive
   next_item_events: s_p1_l_flipper_button_inactive
   previous_item_events: s_p1_hunter_bull_3_inactive
   block_events: flipper_cancel #what is this - check this may need to be same as select_item_events
@@ -155,6 +155,21 @@ show_player:
         P2_score:
             show_tokens:
                 txt: "-------"
+    mode_carousel_started:
+        sequenceColor:
+            speed: 6
+            priority: 5
+            show_tokens:
+                color: tt_white
+                led: l_left_flipper1
+                ledB: l_right_flipper1
+                ledC: l_left_flipper2
+                ledD: l_right_flipper2
+        quickflashColor:
+            speed: 1
+            show_tokens:
+                color: green
+                led: l_start
 shows:
     double_player_vs:
       - duration: 3  

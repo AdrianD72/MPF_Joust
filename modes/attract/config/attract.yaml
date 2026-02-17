@@ -43,9 +43,9 @@ show_player:
             priority: 5
             show_tokens:
                 color: tt_white
-                led: l_p1_2xmulti, l_p1_hunter1, l_p1_50k5eggs, l_p1_dtl40k, l_p1_collect_egg_bonus, l_p1_r3b50k 
+                led: l_left_flipper1, l_p1_2xmulti, l_p1_hunter1, l_p1_50k5eggs, l_p1_dtl40k, l_p1_collect_egg_bonus, l_p1_r3b50k 
                 ledB: l_p1_3xmulti, l_p1_hunter2, l_p1_extra_ball, l_p1_dtl80k, l_p1_r3b100k, l_p1_release
-                ledC: l_p1_5xmulti, l_p1_hunter3, l_p1_unlimited_balls, l_p1_dtl160k, l_p1_spinner1k, l_p1_r3b150k
+                ledC: l_left_flipper2, l_p1_5xmulti, l_p1_hunter3, l_p1_unlimited_balls, l_p1_dtl160k, l_p1_spinner1k, l_p1_r3b150k
                 ledD: l_p1_dtl320k, l_p1_r3b200k, l_p1_release, l_p1_spinner5k
         sequenceColor1:
             speed: 6

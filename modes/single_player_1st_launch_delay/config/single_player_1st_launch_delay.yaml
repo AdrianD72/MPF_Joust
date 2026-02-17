@@ -13,7 +13,7 @@ event_player:
 
 counters:
     single_player_start_sound: #this was added to prevent multiple playing of the sound by hitting the start button 
-        count_events: sw_right_flipper
+        count_events: sw_right_flipper, sw_launch_inactive
         events_when_hit: single_player_start_sound
         starting_count: 0
         count_complete_value: 4
@@ -26,7 +26,7 @@ timers: #added 3-5-2025 to automatically launch the ball at a set time in case t
         end_value: 0
         direction: down
         control_events:
-            - event: mode_1st_launch_delay_started
+            - event: mode_single_player_1st_launch_delay_started
               action: start
 
 queue_relay_player:
@@ -43,9 +43,25 @@ show_player:
     mode_single_player_1st_launch_delay_started:
         single_press_right_button:
             action: play
+        sequenceColor:
+            speed: 6
+            priority: 5
+            show_tokens:
+                color: tt_white
+                ledB: l_right_flipper1
+                ledD: l_right_flipper2
+        quickflashColor:
+            speed: 1
+            show_tokens:
+                color: green
+                led: l_launch
     launch_ball:
         press_right_button:
             action: stop 
+        sequenceColor:
+            action: stop
+        quickflashColor:
+            action: stop
 shows:
     single_press_right_button:
       - duration: 2  

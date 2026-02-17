@@ -90,13 +90,36 @@ slides:
         anchor_y: top
         y: 768
       - type: text
-        text: SINGLE PLAY
+        text: SINGLE PLAY BALLS (single_player_lives)
         font_name: joust
         font_size: 40
         color: red
         anchor_x: center
         anchor_y: top
         y: 555
+        animations:
+          mode_unlimited_multiball_started:                   # animation trigger event
+            - property: opacity         # second step in the animation (starts with a hyphen)
+              value: 0
+              duration: 0s
+      - type: text
+        text: SINGLE PLAY MULTIBALL
+        font_name: joust
+        font_size: 40
+        color: red
+        opacity: 0
+        anchor_x: center
+        anchor_y: top
+        y: 555
+        animations:
+          mode_single_player_started:                   # animation trigger event
+            - property: opacity         # second step in the animation (starts with a hyphen)
+              value: 0
+              duration: 0s
+          mode_unlimited_multiball_started:                   # animation trigger event
+            - property: opacity         # second step in the animation (starts with a hyphen)
+              value: 1
+              duration: 0s
       - type: text
         font_name: joust
         text: PLAYER 1

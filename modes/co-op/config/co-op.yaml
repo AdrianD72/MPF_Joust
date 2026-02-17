@@ -92,13 +92,32 @@ slides:
         anchor_y: top
         y: 768
       - type: text
-        text: COOPERATIVE
+        text: COOPERATIVE BALLS (cooperative_balls)
         font_name: joust
         font_size: 40
         color: red
         anchor_x: center
         anchor_y: top
         y: 555
+        animations:
+          mode_unlimited_multiball_started:                   # animation trigger event
+            - property: opacity         # second step in the animation (starts with a hyphen)
+              value: 0
+              duration: 0s
+      - type: text
+        text: COOPERATIVE MULTIBALL
+        font_name: joust
+        font_size: 40
+        color: red
+        opacity: 0
+        anchor_x: center
+        anchor_y: top
+        y: 555
+        animations:
+          mode_unlimited_multiball_started:                   # animation trigger event
+            - property: opacity         # second step in the animation (starts with a hyphen)
+              value: 1
+              duration: 0s
       - type: text
         font_name: joust
         text: PLAYER 1

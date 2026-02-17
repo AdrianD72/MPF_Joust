@@ -25,7 +25,9 @@ event_player:
     timer_end_timer_complete: #end_game
       - reset_droptargets
       - end_game
-
+    timer_end_game_timer_complete: #this is if the ball collection does not happen after a minute
+      - reset_droptargets
+      - end_game
 timers:
     round2end_timer: 
         start_value: 3
@@ -35,12 +37,19 @@ timers:
             - event: start_round2end_timer
               action: start 
     end_timer: 
-        start_value: 6
+        start_value: 5
         end_value: 0
         direction: down
         control_events:
             - event: start_end_timer
               action: start 
+    end_game_timer: 
+        start_value: 120
+        end_value: 0
+        direction: down
+        control_events:
+            - event: egg_bonus_tally_complete
+              action: start
 variable_player:
     timer_round2end_timer_tick: 
         timer_round2end_timer_variable:

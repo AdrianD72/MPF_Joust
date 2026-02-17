@@ -25,6 +25,7 @@ config:
    - neoSeg_1.yaml
    - neoSeg_2dig_2.yaml
    - neoSeg_2dig_3.yaml    
+   - cabinet_lights.yaml 
 sound_system:
     tracks:
        music:
@@ -137,15 +138,14 @@ logging:
 switches:
     s_no_default:
         number: A3-B0-4 #was player 2 start switch not connected
-    s_test_1:
+    s_launch:
         number: COM3-0-1
         platform: opp
-    s_test_2:
-        number: COM3-0-2
-        platform: opp
-    s_test_3:
+        tags: launch
+    s_start:
         number: COM3-0-3
         platform: opp
+        tags: start
  # Player 1 Switches
     s_p1_spin:
         number: A0-B0-0
@@ -1239,18 +1239,18 @@ kivy_config:
     window_icon:
   graphics:
     borderless: true
-    window_state: maximized # visible, hidden, maximized, minimized
+    window_state: maximized # visible, hidden, change to maximized on machine, minimized
     fbo: hardware # hardware, software, force-hardware
-    fullscreen: true
+    fullscreen: false #change to true on machine 
     left: 0
     top: 0
     width: 1280   # width of display1 + display2
     height: 768  # common height (or the maximum of both)
     maxfps: 30
     multisamples: 3
-    position: auto # auto, custom
-    show_cursor: false
-    resizable: false
+    position: custom # change to auto on machine, custom for simulation
+    show_cursor: true # change to false for on machine, true for simulation
+    resizable: true # change to false for on machine, true for simulatio
     rotation: 0
 displays:
   monitor:
